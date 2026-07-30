@@ -57,10 +57,6 @@
             <!-- 관리 도구 -->
             <div class="space-y-2 pt-4 border-t border-slate-700">
                 <label class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-2">포트폴리오 관리</label>
-                <a href="../index.html" class="w-full flex items-center justify-between p-3 rounded-xl bg-slate-700/40 hover:bg-slate-700 text-indigo-300 text-xs font-semibold transition-colors">
-                    <span class="flex items-center gap-2"><i data-lucide="home" class="w-4 h-4"></i> 홈으로 가기</span>
-                    <i data-lucide="chevron-right" class="w-4 h-4"></i>
-                </a>
                 <button onclick="openModal('add-modal'); toggleSidebar(false);" class="w-full flex items-center justify-between p-3 rounded-xl bg-indigo-600/20 hover:bg-indigo-600/40 border border-indigo-500/30 text-indigo-200 text-xs font-semibold transition-colors">
                     <span class="flex items-center gap-2"><i data-lucide="plus-circle" class="w-4 h-4"></i> 새 카드 추가</span>
                     <i data-lucide="chevron-right" class="w-4 h-4"></i>
@@ -71,16 +67,13 @@
                 </button>
             </div>
         </div>
-        <div class="p-4 border-t border-slate-700 text-center text-xs text-slate-500">인공지능일반 v2.8</div>
+        <div class="p-4 border-t border-slate-700 text-center text-xs text-slate-500">인공지능일반 v2.9</div>
     </aside>
 
     <!-- Header -->
     <header class="sticky top-0 z-40 bg-slate-900/80 backdrop-blur-md border-b border-slate-800">
         <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
             <div class="flex items-center space-x-3">
-                <a href="../index.html" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition-all border border-slate-700 flex items-center gap-2 text-xs font-semibold">
-                    <i data-lucide="home" class="w-5 h-5"></i><span class="hidden sm:inline">홈</span>
-                </a>
                 <button onclick="toggleSidebar(true)" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition-all border border-slate-700 flex items-center gap-2">
                     <i data-lucide="menu" class="w-5 h-5"></i><span class="text-xs font-semibold hidden sm:inline">더보기</span>
                 </button>
@@ -346,8 +339,8 @@
                 reflection: '비판적 사고력이 인공지능 시대의 핵심 경쟁력임을 깨달았습니다.', 
                 icon: 'shield-check', 
                 color: 'from-blue-500 to-indigo-600', 
-                reportUrl: './Notebook/guidelines.pdf', 
-                pptUrl: './Notebook/rule.pdf' 
+                reportUrl: 'Notebook/guidelines.pdf', 
+                pptUrl: 'Notebook/rule.pdf' 
             },
             { 
                 id: '2', 
@@ -369,11 +362,11 @@
             { id: '6', category: 'ethics', categoryLabel: '학습 성장', title: '포트폴리오 최종 개편', shortDesc: '학습 과정을 통합한 인터랙티브 랜딩페이지', fullDesc: '한 학기 동안의 모든 성과물을 다크모드 기반의 웹 포트폴리오로 직접 구축하고 정리했습니다.', highlight: '포트폴리오 웹사이트 구축 성공', tools: ['HTML/CSS', 'Lucide Icons'], reflection: '디지털 세상에 나만의 발자취를 남기는 경험이었습니다.', icon: 'award', color: 'from-indigo-500 to-purple-600', pptUrl: '#', reportUrl: '#' }
         ];
 
-        let portfolioData = JSON.parse(localStorage.getItem('ai_portfolio_v2.8')) || defaultData;
+        let portfolioData = JSON.parse(localStorage.getItem('ai_portfolio_v2.9')) || defaultData;
         let activeCategory = 'all', searchQuery = '';
 
         function save() {
-            localStorage.setItem('ai_portfolio_v2.8', JSON.stringify(portfolioData));
+            localStorage.setItem('ai_portfolio_v2.9', JSON.stringify(portfolioData));
             document.getElementById('metric-total-count').innerText = `${portfolioData.length}개`;
         }
 
@@ -443,10 +436,10 @@
                 btnContainer.className = "grid grid-cols-1 sm:grid-cols-2 gap-3";
                 
                 const reportHref = d.reportUrl || '#';
-                const reportDownload = (d.reportUrl && d.reportUrl !== '#') ? `download="${d.reportUrl}"` : '';
+                const reportDownload = (d.reportUrl && d.reportUrl !== '#') ? `download="${d.reportUrl.split('/').pop()}"` : '';
                 
                 const pptHref = d.pptUrl || '#';
-                const pptDownload = (d.pptUrl && d.pptUrl !== '#') ? `download="${d.pptUrl}"` : '';
+                const pptDownload = (d.pptUrl && d.pptUrl !== '#') ? `download="${d.pptUrl.split('/').pop()}"` : '';
 
                 btnContainer.innerHTML = `
                     <a href="${reportHref}" ${reportDownload} class="flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-slate-700 hover:bg-slate-600 text-white font-bold transition-all border border-slate-600">
