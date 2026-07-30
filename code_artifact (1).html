@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ko" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>진로 데이터 분석 - 김도영 포트폴리오</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: { extend: { colors: { brand: { 500: '#6366f1', 600: '#4f46e5' } } } }
+        }
+    </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+        * { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif; }
+        .glass-card { background: rgba(30, 41, 59, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(51, 65, 85, 0.8); }
+        .gradient-text { background: linear-gradient(135deg, #F59E0B 0%, #F472B6 50%, #818CF8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .gradient-bg { background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0F172A; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col selection:bg-amber-500 selection:text-white transition-colors duration-300">
+
+    <!-- Header -->
+    <header class="sticky top-0 z-40 bg-slate-900/80 backdrop-blur-md border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <a href="https://kdysky09-wq.github.io/AI-2026/" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-amber-400 transition-all border border-slate-700 flex items-center gap-2 text-xs font-bold shadow-sm">
+                    <i data-lucide="home" class="w-4 h-4 text-amber-400"></i>
+                    <span>메인 홈으로</span>
+                </a>
+                <div class="h-4 w-px bg-slate-700 mx-1"></div>
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+                    <div class="p-2 gradient-bg text-white rounded-xl shadow-md"><i data-lucide="trending-up" class="w-5 h-5"></i></div>
+                    <span class="font-bold text-lg text-white block leading-none">진로 데이터 분석</span>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <span class="px-3 py-1 rounded-full text-xs font-semibold bg-amber-950/60 text-amber-300 border border-amber-800 hidden sm:inline-block">금정고등학교 김도영</span>
+                <a href="https://kdysky09-wq.github.io/AI-2026/" class="text-xs text-slate-400 hover:text-white flex items-center gap-1 transition-colors">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i> 돌아가기
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Banner -->
+    <section class="pt-12 pb-16 bg-gradient-to-b from-amber-950/30 via-slate-900 to-slate-900 border-b border-slate-800">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-800 border border-slate-700 text-xs font-medium text-slate-300 mb-6">
+                <i data-lucide="bar-chart-3" class="w-4 h-4 text-amber-400"></i>
+                <span>공공데이터 기반 IT/AI 분야 직무 동향 EDA 리포트</span>
+            </div>
+            <h1 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight mb-6">
+                데이터로 검증하는 미래 인재 요구사항<br/>
+                <span class="gradient-text">AI 개발자 & 데이터 분석가 트렌드</span>
+            </h1>
+            <p class="text-slate-300 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto">
+                워크넷 API 및 최근 3개년 주요 채용 공고 데이터를 파이썬(Python) 기반으로 탐색적 데이터 분석(EDA)하여 객관적인 요구 역량과 진로 비전을 수립했습니다.
+            </p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="max-w-5xl mx-auto px-4 py-12 flex-grow space-y-12">
+
+        <!-- Metrics Overview -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="glass-card p-5 rounded-2xl border border-amber-500/30">
+                <span class="text-xs font-semibold text-slate-400 block mb-1">분석 채용 공고 데이터</span>
+                <div class="text-2xl font-bold text-amber-400">12,450건</div>
+                <span class="text-[11px] text-slate-500 mt-1 block">최근 3개년 누적 수집 데이터</span>
+            </div>
+            <div class="glass-card p-5 rounded-2xl border border-indigo-500/30">
+                <span class="text-xs font-semibold text-slate-400 block mb-1">AI 분야 채용 성장률</span>
+                <div class="text-2xl font-bold text-indigo-400">+34.8%</div>
+                <span class="text-[11px] text-slate-500 mt-1 block">전년 대비 신규 채용 증가폭</span>
+            </div>
+            <div class="glass-card p-5 rounded-2xl border border-purple-500/30">
+                <span class="text-xs font-semibold text-slate-400 block mb-1">1위 요구 필수 기술</span>
+                <div class="text-2xl font-bold text-purple-400">Python</div>
+                <span class="text-[11px] text-slate-500 mt-1 block">전체 공고 중 89.2% 언급</span>
+            </div>
+            <div class="glass-card p-5 rounded-2xl border border-emerald-500/30">
+                <span class="text-xs font-semibold text-slate-400 block mb-1">초봉 평균 상승률</span>
+                <div class="text-2xl font-bold text-emerald-400">년 7.4%</div>
+                <span class="text-[11px] text-slate-500 mt-1 block">전문 스킬 보유자 대상</span>
+            </div>
+        </div>
+
+        <!-- Tech Stack Demand Chart Section -->
+        <div class="glass-card p-6 sm:p-8 rounded-3xl border border-slate-700">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-2">
+                <div>
+                    <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                        <i data-lucide="code" class="w-5 h-5 text-amber-400"></i>
+                        IT/AI 직무 상위 요구 기술 스택 (Top Tech Stacks)
+                    </h2>
+                    <p class="text-xs text-slate-400 mt-1">공공데이터 및 채용 플랫폼 공고 키워드 빈도수 시각화</p>
+                </div>
+                <span class="text-xs text-slate-500 bg-slate-800 px-3 py-1 rounded-full border border-slate-700 self-start sm:self-auto">출처: 워크넷 API & 공공데이터포털</span>
+            </div>
+
+            <div class="space-y-4">
+                <!-- Skill 1 -->
+                <div>
+                    <div class="flex justify-between text-xs font-bold mb-1">
+                        <span class="text-slate-200">1. Python (데이터 처리 & ML/DL 필수)</span>
+                        <span class="text-amber-400">89.2%</span>
+                    </div>
+                    <div class="w-full h-3 bg-slate-800 rounded-full overflow-hidden">
+                        <div class="h-full gradient-bg rounded-full" style="width: 89.2%"></div>
+                    </div>
+                </div>
+
+                <!-- Skill 2 -->
+                <div>
+                    <div class="flex justify-between text-xs font-bold mb-1">
+                        <span class="text-slate-200">2. PyTorch / TensorFlow (딥러닝 프레임워크)</span>
+                        <span class="text-indigo-400">76.5%</span>
+                    </div>
+                    <div class="w-full h-3 bg-slate-800 rounded-full overflow-hidden">
+                        <div class="h-full bg-indigo-500 rounded-full" style="width: 76.5%"></div>
+                    </div>
+                </div>
+
+                <!-- Skill 3 -->
+                <div>
+                    <div class="flex justify-between text-xs font-bold mb-1">
+                        <span class="text-slate-200">3. SQL & 데이터베이스 (빅데이터 조회/관리)</span>
+                        <span class="text-purple-400">68.1%</span>
+                    </div>
+                    <div class="w-full h-3 bg-slate-800 rounded-full overflow-hidden">
+                        <div class="h-full bg-purple-500 rounded-full" style="width: 68.1%"></div>
+                    </div>
+                </div>
+
+                <!-- Skill 4 -->
+                <div>
+                    <div class="flex justify-between text-xs font-bold mb-1">
+                        <span class="text-slate-200">4. LLM & Prompt Engineering (생성형 AI 응용)</span>
+                        <span class="text-pink-400">54.3% (급상승 ↑)</span>
+                    </div>
+                    <div class="w-full h-3 bg-slate-800 rounded-full overflow-hidden">
+                        <div class="h-full bg-pink-500 rounded-full" style="width: 54.3%"></div>
+                    </div>
+                </div>
+
+                <!-- Skill 5 -->
+                <div>
+                    <div class="flex justify-between text-xs font-bold mb-1">
+                        <span class="text-slate-200">5. Git & DevOps (협업 및 배포 환경)</span>
+                        <span class="text-emerald-400">48.7%</span>
+                    </div>
+                    <div class="w-full h-3 bg-slate-800 rounded-full overflow-hidden">
+                        <div class="h-full bg-emerald-500 rounded-full" style="width: 48.7%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3-Year Trend & Insights -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="glass-card p-6 rounded-3xl border border-slate-700 space-y-4">
+                <h3 class="text-base font-bold text-white flex items-center gap-2">
+                    <i data-lucide="line-chart" class="w-5 h-5 text-amber-400"></i>
+                    연도별 AI 관련 직무 수요 변화
+                </h3>
+                <p class="text-xs text-slate-300 leading-relaxed">
+                    2024년부터 2026년까지 생성형 AI 도입 폭발에 따라 단순 개발직군보다 <strong>데이터 가공 및 프롬프트 연동이 가능한 융합형 엔지니어</strong>의 채용 비중이 크게 늘어난 것을 데이터로 확인했습니다.
+                </p>
+                <div class="p-4 bg-slate-900/60 rounded-2xl border border-slate-700 text-xs space-y-2">
+                    <div class="flex justify-between text-slate-400"><span>2024년 채용 비율</span><span class="font-bold text-white">22.1%</span></div>
+                    <div class="flex justify-between text-slate-400"><span>2025년 채용 비율</span><span class="font-bold text-white">28.4%</span></div>
+                    <div class="flex justify-between text-slate-400"><span>2026년 채용 비율</span><span class="font-bold text-amber-400">35.6%</span></div>
+                </div>
+            </div>
+
+            <div class="glass-card p-6 rounded-3xl border border-slate-700 space-y-4">
+                <h3 class="text-base font-bold text-white flex items-center gap-2">
+                    <i data-lucide="compass" class="w-5 h-5 text-indigo-400"></i>
+                    분석을 통한 시사점 & 결론
+                </h3>
+                <ul class="text-xs text-slate-300 space-y-2.5 list-disc list-inside leading-relaxed">
+                    <li><strong class="text-white">기초 수학 & 파이썬의 중요성:</strong> 단순 AI 툴 활용을 넘어 알고리즘을 파악하기 위한 기초 체력 확보 필수.</li>
+                    <li><strong class="text-white">생성형 AI 응용 능력 요구:</strong> API 연동 및 프롬프팅 최적화 능력이 채용의 핵심 차별화 요소로 등장.</li>
+                    <li><strong class="text-white">프로젝트 포트폴리오 가치:</strong> 이론 공부 외에도 직접 문제를 정의하고 시각화해 본 실전 포트폴리오의 높은 평가.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Action Plan Roadmap -->
+        <div class="glass-card p-6 sm:p-8 rounded-3xl border border-amber-500/30">
+            <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                <i data-lucide="target" class="w-5 h-5 text-amber-400"></i>
+                데이터 분석 기반 김도영 학생의 5개년 준비 전략
+            </h3>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+                <div class="p-4 rounded-2xl bg-slate-900/70 border border-slate-700 space-y-2">
+                    <span class="px-2.5 py-0.5 rounded bg-amber-950 text-amber-300 border border-amber-800 font-bold block w-max">1단계 (고교 과정)</span>
+                    <h4 class="font-bold text-white text-sm">파이썬 & 공공데이터 분석</h4>
+                    <p class="text-slate-400 leading-relaxed">Pandas, Matplotlib 수강 및 지역 문제 데이터 시각화 프로젝트 지속 수행.</p>
+                </div>
+                <div class="p-4 rounded-2xl bg-slate-900/70 border border-slate-700 space-y-2">
+                    <span class="px-2.5 py-0.5 rounded bg-indigo-950 text-indigo-300 border border-indigo-800 font-bold block w-max">2단계 (대학 진학)</span>
+                    <h4 class="font-bold text-white text-sm">AI/소프트웨어 전공 심화</h4>
+                    <p class="text-slate-400 leading-relaxed">수학적 알고리즘 기초 및 PyTorch 모델링 학습, 오픈소스 프로젝트 참여.</p>
+                </div>
+                <div class="p-4 rounded-2xl bg-slate-900/70 border border-slate-700 space-y-2">
+                    <span class="px-2.5 py-0.5 rounded bg-purple-950 text-purple-300 border border-purple-800 font-bold block w-max">3단계 (실전 응용)</span>
+                    <h4 class="font-bold text-white text-sm">사회 문제 해결 AI 개발자</h4>
+                    <p class="text-slate-400 leading-relaxed">소외 계층 및 복지 데이터 기반 AI 서비스 구축으로 따뜻한 기술 구현.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 하단 홈 이동 안내 바 -->
+        <div class="p-6 rounded-3xl bg-gradient-to-r from-amber-900/60 to-indigo-900/60 border border-amber-700/50 text-center flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="text-left">
+                <h3 class="font-bold text-white text-base">포트폴리오 메인으로 이동하기</h3>
+                <p class="text-xs text-amber-200 mt-0.5">김도영 학생의 다른 탐구 프로젝트 카드를 확인해보세요.</p>
+            </div>
+            <a href="https://kdysky09-wq.github.io/AI-2026/" class="px-6 py-3 rounded-xl bg-white hover:bg-slate-100 text-slate-950 font-extrabold text-xs transition-colors shadow-md flex items-center gap-2 flex-shrink-0">
+                <i data-lucide="home" class="w-4 h-4 text-amber-600"></i>
+                <span>메인 포트폴리오 홈</span>
+            </a>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 border-t border-slate-800 py-8 text-center text-slate-500 text-sm">
+        <p>© 2026 금정고등학교 김도영 인공지능일반 포트폴리오</p>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
