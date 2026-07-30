@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ko" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>생성형 AI 활용 원칙 - 김도영 포트폴리오</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: { extend: { colors: { brand: { 500: '#6366f1', 600: '#4f46e5' } } } }
+        }
+    </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+        * { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif; }
+        .glass-card { background: rgba(30, 41, 59, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(51, 65, 85, 0.8); }
+        .gradient-text { background: linear-gradient(135deg, #818CF8 0%, #C084FC 50%, #F472B6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .gradient-bg { background: linear-gradient(135deg, #6366F1 0%, #A855F7 100%); }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0F172A; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col selection:bg-indigo-500 selection:text-white transition-colors duration-300">
+
+    <!-- Header -->
+    <header class="sticky top-0 z-40 bg-slate-900/80 backdrop-blur-md border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <!-- 홈 버튼 (요청하신 링크로 연결) -->
+                <a href="https://kdysky09-wq.github.io/AI-2026/" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-indigo-400 transition-all border border-slate-700 flex items-center gap-2 text-xs font-bold shadow-sm">
+                    <i data-lucide="home" class="w-4 h-4 text-indigo-400"></i>
+                    <span>메인 홈으로</span>
+                </a>
+                <div class="h-4 w-px bg-slate-700 mx-1"></div>
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+                    <div class="p-2 gradient-bg text-white rounded-xl shadow-md"><i data-lucide="shield-check" class="w-5 h-5"></i></div>
+                    <span class="font-bold text-lg text-white block leading-none">AI 활용 원칙</span>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <span class="px-3 py-1 rounded-full text-xs font-semibold bg-indigo-950/60 text-indigo-300 border border-indigo-800 hidden sm:inline-block">금정고등학교 김도영</span>
+                <a href="https://kdysky09-wq.github.io/AI-2026/" class="text-xs text-slate-400 hover:text-white flex items-center gap-1 transition-colors">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i> 돌아가기
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Banner -->
+    <section class="pt-12 pb-16 bg-gradient-to-b from-indigo-950/40 via-slate-900 to-slate-900 border-b border-slate-800">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-800 border border-slate-700 text-xs font-medium text-slate-300 mb-6">
+                <i data-lucide="sparkles" class="w-4 h-4 text-indigo-400"></i>
+                <span>고등학생을 위한 올바른 AI 이용 가이드라인</span>
+            </div>
+            <h1 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight mb-6">
+                생성형 AI 올바른 활용 5대 원칙<br/>
+                <span class="gradient-text">지혜로운 AI 조수 활용 백서</span>
+            </h1>
+            <p class="text-slate-300 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto">
+                AI에 주도권을 빼앗기지 않는 '인지적 줏대'를 세우고, 책임감 있는 디지털 시민으로서 탐구 과제와 프로젝트를 정직하게 수행하기 위한 5가지 필수 원칙입니다.
+            </p>
+
+            <!-- 자료 다운로드 버튼 모음 -->
+            <div class="mt-8 flex flex-wrap justify-center gap-3">
+                <a href="Notebook/guidelines.pdf" download="guidelines.pdf" class="flex items-center gap-2 px-5 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs transition-all shadow-lg hover:shadow-indigo-500/25">
+                    <i data-lucide="file-text" class="w-4 h-4"></i>
+                    <span>가이드라인 보고서 다운로드 (guidelines.pdf)</span>
+                </a>
+                <a href="Notebook/rule.pdf" download="rule.pdf" class="flex items-center gap-2 px-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs transition-all border border-slate-700 hover:border-slate-600">
+                    <i data-lucide="download" class="w-4 h-4 text-indigo-400"></i>
+                    <span>핵심 수칙 발표자료 다운로드 (rule.pdf)</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content Grid -->
+    <main class="max-w-5xl mx-auto px-4 py-12 flex-grow space-y-12">
+
+        <!-- 3대 방어막 요약 -->
+        <div>
+            <h2 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                <i data-lucide="shield" class="w-5 h-5 text-indigo-400"></i>
+                안전한 AI 활용을 위한 3대 방어막
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="glass-card p-5 rounded-2xl border border-emerald-500/30">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-950 border border-emerald-800 text-emerald-400 flex items-center justify-center font-bold mb-3">01</div>
+                    <h3 class="font-bold text-white text-base mb-1">진실의 방패 (Truth)</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed">환각(Hallucination) 현상 방지, 팩트 체크 및 외부 자료 교차 검증 절차 준수</p>
+                </div>
+                <div class="glass-card p-5 rounded-2xl border border-amber-500/30">
+                    <div class="w-10 h-10 rounded-xl bg-amber-950 border border-amber-800 text-amber-400 flex items-center justify-center font-bold mb-3">02</div>
+                    <h3 class="font-bold text-white text-base mb-1">철통 보안 (Security)</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed">민감 개인정보 및 학교 미공개 문서 입력 차단, 옵트아웃(Opt-out) 활성화</p>
+                </div>
+                <div class="glass-card p-5 rounded-2xl border border-purple-500/30">
+                    <div class="w-10 h-10 rounded-xl bg-purple-950 border border-purple-800 text-purple-400 flex items-center justify-center font-bold mb-3">03</div>
+                    <h3 class="font-bold text-white text-base mb-1">창작 윤리 (Ethics)</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed">표절 및 저작권 침해 금지, 도구명 및 인용 출처의 투명한 명기 수칙 준수</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5대 핵심 원칙 상세 -->
+        <div>
+            <h2 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                <i data-lucide="check-square" class="w-5 h-5 text-indigo-400"></i>
+                생성형 AI 스마트 활용 5대 핵심 원칙
+            </h2>
+
+            <div class="space-y-4">
+                <!-- 원칙 1 -->
+                <div class="glass-card p-6 rounded-2xl border border-slate-700 flex flex-col md:flex-row md:items-start gap-4">
+                    <div class="p-3 rounded-xl bg-indigo-950 text-indigo-400 border border-indigo-800 flex-shrink-0">
+                        <i data-lucide="user-check" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="text-xs font-bold text-indigo-400 uppercase">Principle 01</span>
+                            <h3 class="text-lg font-bold text-white">최종 책임의 원칙 (Human-in-the-Loop)</h3>
+                        </div>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            AI는 정답 자판기가 아닙니다. 결과물의 정확성 및 윤리성에 대한 최종 결정과 법적·윤리적 책임은 사람(사용자)에게 있음을 인지하고 판단의 핸들을 직접 잡습니다.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 원칙 2 -->
+                <div class="glass-card p-6 rounded-2xl border border-slate-700 flex flex-col md:flex-row md:items-start gap-4">
+                    <div class="p-3 rounded-xl bg-emerald-950 text-emerald-400 border border-emerald-800 flex-shrink-0">
+                        <i data-lucide="search" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="text-xs font-bold text-emerald-400 uppercase">Principle 02</span>
+                            <h3 class="text-lg font-bold text-white">교차 검증의 원칙 (Fact Checking)</h3>
+                        </div>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            AI 답변은 확률 기반의 문장 생성이므로 환각 현상이 발생할 수 있습니다. 교과서, 공신력 있는 논문, 공식 정부 데이터를 통해 사실 관계와 수치를 2차 교차 검증합니다.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 원칙 3 -->
+                <div class="glass-card p-6 rounded-2xl border border-slate-700 flex flex-col md:flex-row md:items-start gap-4">
+                    <div class="p-3 rounded-xl bg-amber-950 text-amber-400 border border-amber-800 flex-shrink-0">
+                        <i data-lucide="lock" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="text-xs font-bold text-amber-400 uppercase">Principle 03</span>
+                            <h3 class="text-lg font-bold text-white">정보 보안 수칙 준수 (Privacy Protection)</h3>
+                        </div>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            주민등록번호, 전화번호, 학교/동아리 미공개 기획안 등을 프롬프트에 입력하지 않습니다. 대화 기록 저장 거부(Opt-out) 설정을 활성화하여 데이터 무단 재학습을 차단합니다.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 원칙 4 -->
+                <div class="glass-card p-6 rounded-2xl border border-slate-700 flex flex-col md:flex-row md:items-start gap-4">
+                    <div class="p-3 rounded-xl bg-purple-950 text-purple-400 border border-purple-800 flex-shrink-0">
+                        <i data-lucide="file-check-2" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="text-xs font-bold text-purple-400 uppercase">Principle 04</span>
+                            <h3 class="text-lg font-bold text-white">투명한 인용 및 출처 표기 (Transparency)</h3>
+                        </div>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            과제 제출 시 AI 활용 사실을 솔직하게 밝힙니다. NRF(한국연구재단) 및 APA/MLA 표준 양식에 맞춰 도구명, 모델 버전, 활용 목적 및 본인의 직접 수정 내역을 각주로 남깁니다.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 원칙 5 -->
+                <div class="glass-card p-6 rounded-2xl border border-slate-700 flex flex-col md:flex-row md:items-start gap-4">
+                    <div class="p-3 rounded-xl bg-pink-950 text-pink-400 border border-pink-800 flex-shrink-0">
+                        <i data-lucide="lightbulb" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="text-xs font-bold text-pink-400 uppercase">Principle 05</span>
+                            <h3 class="text-lg font-bold text-white">윤리 및 주체적 재창작 (Creativity)</h3>
+                        </div>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            AI 생성 초안을 그대로 복사·붙여넣기 하지 않고 본인의 비판적 해석과 아이디어를 더해 재창작합니다. 혐오 표현이나 특정 화풍의 무단 복제를 요청하지 않습니다.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 하단 홈 이동 안내 바 -->
+        <div class="p-6 rounded-3xl bg-gradient-to-r from-indigo-900/60 to-purple-900/60 border border-indigo-700/50 text-center flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="text-left">
+                <h3 class="font-bold text-white text-base">포트폴리오 메인으로 이동하기</h3>
+                <p class="text-xs text-indigo-200 mt-0.5">김도영 학생의 다른 탐구 프로젝트 카드를 확인해보세요.</p>
+            </div>
+            <a href="https://kdysky09-wq.github.io/AI-2026/" class="px-6 py-3 rounded-xl bg-white hover:bg-slate-100 text-indigo-950 font-extrabold text-xs transition-colors shadow-md flex items-center gap-2 flex-shrink-0">
+                <i data-lucide="home" class="w-4 h-4 text-indigo-600"></i>
+                <span>메인 포트폴리오 홈</span>
+            </a>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 border-t border-slate-800 py-8 text-center text-slate-500 text-sm">
+        <p>© 2026 금정고등학교 김도영 인공지능일반 포트폴리오</p>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
