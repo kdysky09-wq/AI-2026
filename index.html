@@ -71,7 +71,7 @@
                 </button>
             </div>
         </div>
-        <div class="p-4 border-t border-slate-700 text-center text-xs text-slate-500">인공지능일반 v3.7</div>
+        <div class="p-4 border-t border-slate-700 text-center text-xs text-slate-500">인공지능일반 v3.8</div>
     </aside>
 
     <!-- Header -->
@@ -391,11 +391,11 @@
             { id: '6', category: 'ethics', categoryLabel: '학습 성장', title: '포트폴리오 최종 개편', shortDesc: '학습 과정을 통합한 인터랙티브 랜딩페이지', fullDesc: '한 학기 동안의 모든 성과물을 다크모드 기반의 웹 포트폴리오로 직접 구축하고 정리했습니다.', highlight: '포트폴리오 웹사이트 구축 성공', tools: ['HTML/CSS', 'Lucide Icons'], reflection: '디지털 세상에 나만의 발자취를 남기는 경험이었습니다.', icon: 'award', color: 'from-indigo-500 to-purple-600', pptUrl: '#', reportUrl: '#' }
         ];
 
-        let portfolioData = JSON.parse(localStorage.getItem('ai_portfolio_v3.7')) || defaultData;
+        let portfolioData = JSON.parse(localStorage.getItem('ai_portfolio_v3.8')) || defaultData;
         let activeCategory = 'all', searchQuery = '';
 
         function save() {
-            localStorage.setItem('ai_portfolio_v3.7', JSON.stringify(portfolioData));
+            localStorage.setItem('ai_portfolio_v3.8', JSON.stringify(portfolioData));
             document.getElementById('metric-total-count').innerText = `${portfolioData.length}개`;
         }
 
