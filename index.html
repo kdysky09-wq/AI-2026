@@ -71,7 +71,7 @@
                 </button>
             </div>
         </div>
-        <div class="p-4 border-t border-slate-700 text-center text-xs text-slate-500">인공지능일반 v3.8</div>
+        <div class="p-4 border-t border-slate-700 text-center text-xs text-slate-500">인공지능일반 v4.0</div>
     </aside>
 
     <!-- Header -->
@@ -371,7 +371,7 @@
                 reflection: '데이터 기반의 객관적 지표를 통해 첨단 학과 현황을 명확히 파악했습니다.', 
                 icon: 'trending-up', 
                 color: 'from-amber-500 to-orange-600', 
-                pageUrl: 'https://kdysky09-wq.github.io/AI-2026/career' // 팝업 없이 지정된 주소로 바로 이동
+                pageUrl: 'https://kdysky09-wq.github.io/AI-2026/career' 
             },
             { 
                 id: '4', 
@@ -385,17 +385,17 @@
                 reflection: '주체적으로 내 꿈을 설계하는 법을 배웠습니다.', 
                 icon: 'file-text', 
                 color: 'from-emerald-500 to-teal-600', 
-                pageUrl: 'https://kdysky09-wq.github.io/AI-2026/career' // 동일하게 진로 분석 페이지로 연결
+                pageUrl: 'https://kdysky09-wq.github.io/AI-2026/career' 
             },
             { id: '5', category: 'data', categoryLabel: '데이터 분석', title: '지역 문제 데이터 분석', shortDesc: '교통/안전 공공데이터 GIS 지도 시각화', fullDesc: '우리 지역의 사고 다발 구간 공공데이터를 수집하여 위험도를 시각적으로 표현하고 해결책을 제시했습니다.', highlight: '사고 사각지대 GIS 시각화 완료', tools: ['Public Data', 'Folium', 'Python'], reflection: '데이터가 실제 삶의 안전을 지키는 힘이 됨을 느꼈습니다.', icon: 'map-pin', color: 'from-cyan-500 to-blue-600', pptUrl: '#', reportUrl: '#' },
             { id: '6', category: 'ethics', categoryLabel: '학습 성장', title: '포트폴리오 최종 개편', shortDesc: '학습 과정을 통합한 인터랙티브 랜딩페이지', fullDesc: '한 학기 동안의 모든 성과물을 다크모드 기반의 웹 포트폴리오로 직접 구축하고 정리했습니다.', highlight: '포트폴리오 웹사이트 구축 성공', tools: ['HTML/CSS', 'Lucide Icons'], reflection: '디지털 세상에 나만의 발자취를 남기는 경험이었습니다.', icon: 'award', color: 'from-indigo-500 to-purple-600', pptUrl: '#', reportUrl: '#' }
         ];
 
-        let portfolioData = JSON.parse(localStorage.getItem('ai_portfolio_v3.8')) || defaultData;
+        let portfolioData = JSON.parse(localStorage.getItem('ai_portfolio_v4.0')) || defaultData;
         let activeCategory = 'all', searchQuery = '';
 
         function save() {
-            localStorage.setItem('ai_portfolio_v3.8', JSON.stringify(portfolioData));
+            localStorage.setItem('ai_portfolio_v4.0', JSON.stringify(portfolioData));
             document.getElementById('metric-total-count').innerText = `${portfolioData.length}개`;
         }
 
@@ -457,8 +457,6 @@
             document.getElementById('modal-icon-bg').className = `p-3 rounded-2xl text-white bg-gradient-to-br ${d.color}`;
             
             const btnContainer = document.getElementById('modal-buttons-container');
-            btnContainer.innerHTML = '';
-            
             btnContainer.className = "grid grid-cols-1 sm:grid-cols-2 gap-3";
             btnContainer.innerHTML = `
                 <a href="${d.reportUrl || '#'}" class="flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-slate-700 hover:bg-slate-600 text-white font-bold transition-all border border-slate-600">
@@ -512,7 +510,6 @@
             });
             renderCards();
         }
-        function handleSearch() { searchQuery = document.getElementById('search-input').value; renderCards(); }
 
         window.onload = () => { save(); renderCards(); };
     </script>
