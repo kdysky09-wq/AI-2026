@@ -25,10 +25,8 @@
 </head>
 <body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col selection:bg-indigo-500 selection:text-white transition-colors duration-300">
 
-    <!-- Sidebar Overlay -->
     <div id="sidebar-overlay" onclick="toggleSidebar(false)" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden transition-opacity"></div>
 
-    <!-- 더보기 메뉴 -->
     <aside id="sidebar-menu" class="fixed top-0 left-0 bottom-0 w-80 sm:w-96 bg-slate-800 border-r border-slate-700 z-50 transform -translate-x-full transition-transform duration-300 flex flex-col justify-between shadow-2xl">
         <div class="p-6 overflow-y-auto flex-grow space-y-6">
             <div class="flex items-center justify-between pb-4 border-b border-slate-700">
@@ -39,7 +37,6 @@
                 <button onclick="toggleSidebar(false)" class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-700 transition-colors"><i data-lucide="x" class="w-5 h-5"></i></button>
             </div>
 
-            <!-- 학생 프로필 카드 -->
             <div onclick="openModal('profile-modal')" class="p-4 rounded-2xl bg-slate-700/60 hover:bg-slate-700/90 border border-slate-600 flex items-center justify-between gap-3 cursor-pointer transition-all hover:border-indigo-500 group">
                 <div class="flex items-center gap-3">
                     <div class="w-12 h-12 rounded-full gradient-bg flex items-center justify-center text-white font-bold text-lg">김</div>
@@ -54,7 +51,6 @@
                 <i data-lucide="chevron-right" class="w-5 h-5 text-slate-400 group-hover:text-indigo-400 transition-colors"></i>
             </div>
 
-            <!-- 관리 도구 (새 카드 추가 삭제됨) -->
             <div class="space-y-2 pt-4 border-t border-slate-700">
                 <label class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-2">포트폴리오 관리</label>
                 <button onclick="openModal('reset-modal'); toggleSidebar(false);" class="w-full flex items-center justify-between p-3 rounded-xl bg-slate-700/40 hover:bg-slate-700 text-amber-300 text-xs font-medium transition-colors">
@@ -63,10 +59,9 @@
                 </button>
             </div>
         </div>
-        <div class="p-4 border-t border-slate-700 text-center text-xs text-slate-500">인공지능일반 v4.1</div>
+        <div class="p-4 border-t border-slate-700 text-center text-xs text-slate-500">인공지능일반 v4.2</div>
     </aside>
 
-    <!-- Header (AI Portfolio 글자 가운데 배치) -->
     <header class="sticky top-0 z-40 bg-slate-900/80 backdrop-blur-md border-b border-slate-800">
         <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between relative">
             <div class="flex items-center space-x-3">
@@ -84,7 +79,6 @@
         </div>
     </header>
 
-    <!-- Hero Section -->
     <section id="about" class="pt-12 pb-16 md:pt-20 md:pb-24 bg-gradient-to-b from-indigo-950/30 via-slate-900 to-slate-900 text-center px-4">
         <div class="max-w-3xl mx-auto">
             <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-800 border border-slate-700 text-xs font-medium text-slate-300 mb-6">
@@ -97,7 +91,7 @@
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-left">
                 <div class="p-4 rounded-2xl bg-slate-800 border border-slate-700 shadow-sm">
                     <i data-lucide="folder-check" class="w-6 h-6 text-indigo-400 mb-2"></i>
-                    <div id="metric-total-count" class="text-2xl font-bold text-white">6개</div>
+                    <div id="metric-total-count" class="text-2xl font-bold text-white">7개</div>
                     <div class="text-xs text-slate-400">탐구 프로젝트</div>
                 </div>
                 <div class="p-4 rounded-2xl bg-slate-800 border border-slate-700 shadow-sm">
@@ -119,7 +113,6 @@
         </div>
     </section>
 
-    <!-- Portfolio Section -->
     <section id="projects" class="py-12 max-w-7xl mx-auto px-4 flex-grow">
         <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
             <div>
@@ -136,12 +129,10 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="cards-container"></div>
     </section>
 
-    <!-- Footer -->
     <footer class="bg-slate-900 border-t border-slate-800 py-8 text-center text-slate-500 text-sm">
         <p>© 2026 금정고등학교 김도영 인공지능일반 포트폴리오</p>
     </footer>
 
-    <!-- Card Detail Modal -->
     <div id="modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 sm:p-6 bg-slate-950/80 backdrop-blur-sm">
         <div class="bg-slate-800 rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-slate-700 flex flex-col text-slate-100">
             <div class="p-6 border-b border-slate-700 flex items-start justify-between bg-slate-800/50">
@@ -184,7 +175,6 @@
         </div>
     </div>
 
-    <!-- Student Profile Modal -->
     <div id="profile-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
         <div class="bg-slate-800 rounded-3xl max-w-lg w-full p-6 border border-slate-700 text-slate-100">
             <div class="flex items-center gap-4 mb-6">
@@ -204,7 +194,6 @@
         </div>
     </div>
 
-    <!-- Reset Modal -->
     <div id="reset-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
         <div class="bg-slate-800 rounded-3xl max-w-sm w-full p-6 text-center border border-slate-700">
             <div class="w-12 h-12 rounded-full bg-amber-950 border border-amber-800 text-amber-400 flex items-center justify-center mx-auto mb-4"><i data-lucide="rotate-ccw" class="w-6 h-6"></i></div>
@@ -218,6 +207,7 @@
     </div>
 
     <script>
+        // 기존 6개 항목 + 7번째 로드맵 카드 포함
         const defaultData = [
             { 
                 id: '1', 
@@ -294,23 +284,39 @@
                 id: '6', 
                 category: 'ethics', 
                 categoryLabel: '학습 성장', 
+                title: '포트폴리오 최종 개편', 
+                shortDesc: '학습 과정을 통합한 인터랙티브 랜딩페이지', 
+                fullDesc: '한 학기 동안의 모든 성과물을 다크모드 기반의 웹 포트폴리오로 직접 구축하고 정리했습니다.', 
+                highlight: '포트폴리오 웹사이트 구축 성공', 
+                tools: ['HTML/CSS', 'Lucide Icons'], 
+                reflection: '디지털 세상에 나만의 발자취를 남기는 경험이었습니다.', 
+                icon: 'award', 
+                color: 'from-indigo-500 to-purple-600', 
+                pptUrl: '#', 
+                reportUrl: '#' 
+            },
+            { 
+                id: '7', 
+                category: 'ethics', 
+                categoryLabel: '학습 로드맵', 
                 title: '학습 성장 로드맵 (Roadmap)', 
-                shortDesc: 'AI 활용 원칙부터 최종 포트폴리오까지의 5개년 성장 여정', 
-                fullDesc: '한 학기 동안 인공지능일반 교과를 통해 수행한 탐구 활동과 앞으로의 발전 방향을 집대성한 성장 로드맵입니다.', 
-                highlight: '체계적인 인공지능 융합 인재 성장 경로 수립', 
-                tools: ['Growth Roadmap', 'Strategy'], 
-                reflection: '배움의 단계를 체계적으로 밟아가며 미래 인재로 성장하는 나를 발견했습니다.', 
+                shortDesc: 'AI 활용 원칙부터 포트폴리오 완성까지의 단계별 학습 과정', 
+                fullDesc: '1단계(AI 윤리 및 활용 원칙) ➔ 2단계(AI 영상 제작) ➔ 3단계(진로 데이터 분석) ➔ 4단계(진로 리포트) ➔ 5단계(지역 문제 분석) ➔ 6단계(포트폴리오 구축)로 이어지는 단계별 성장 청사진입니다.', 
+                highlight: '체계적인 인공지능 융합 인재 성장 로드맵 수립 완료', 
+                tools: ['Growth Roadmap', 'Strategy', '5-Year Plan'], 
+                reflection: '각 학습 단계를 연계하여 종합적인 문제 해결 역량을 쌓을 수 있었습니다.', 
                 icon: 'compass', 
                 color: 'from-teal-500 to-emerald-600', 
-                highlightRoadmap: true 
+                pptUrl: '#', 
+                reportUrl: '#' 
             }
         ];
 
-        let portfolioData = JSON.parse(localStorage.getItem('ai_portfolio_v4.1')) || defaultData;
+        let portfolioData = JSON.parse(localStorage.getItem('ai_portfolio_v4.2')) || defaultData;
         let activeCategory = 'all', searchQuery = '';
 
         function save() {
-            localStorage.setItem('ai_portfolio_v4.1', JSON.stringify(portfolioData));
+            localStorage.setItem('ai_portfolio_v4.2', JSON.stringify(portfolioData));
             document.getElementById('metric-total-count').innerText = `${portfolioData.length}개`;
         }
 
