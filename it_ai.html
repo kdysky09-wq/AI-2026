@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="ko" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>진로 데이터 분석 - 부산대학교 IT 및 AI 학과 지표 리포트</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { 500: '#6366f1', 600: '#4f46e5' }
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+        * { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif; }
+        .glass-card { background: rgba(30, 41, 59, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(51, 65, 85, 0.8); }
+        .gradient-text { background: linear-gradient(135deg, #F59E0B 0%, #F472B6 50%, #818CF8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .gradient-bg { background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #0F172A; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col selection:bg-amber-500 selection:text-slate-950 transition-colors duration-300">
+
+    <!-- Header -->
+    <header class="sticky top-0 z-40 bg-slate-900/80 backdrop-blur-md border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <a href="https://kdysky09-wq.github.io/AI-2026/" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-amber-400 transition-all border border-slate-700 flex items-center gap-2 text-xs font-bold shadow-sm">
+                    <i data-lucide="home" class="w-4 h-4 text-amber-400"></i>
+                    <span>메인 홈으로</span>
+                </a>
+                <div class="h-4 w-px bg-slate-700 mx-1"></div>
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+                    <div class="p-2 gradient-bg text-white rounded-xl shadow-md"><i data-lucide="trending-up" class="w-5 h-5"></i></div>
+                    <span class="font-bold text-lg text-white block leading-none">진로 데이터 분석 리포트</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="px-3 py-1 rounded-full text-xs font-semibold bg-amber-950/60 text-amber-300 border border-amber-800 hidden sm:inline-block">금정고등학교 김도영</span>
+                <a href="https://kdysky09-wq.github.io/AI-2026/" class="text-xs text-slate-400 hover:text-white flex items-center gap-1 transition-colors">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i> 돌아가기
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Banner -->
+    <section class="pt-12 pb-16 bg-gradient-to-b from-amber-950/30 via-slate-900 to-slate-900 border-b border-slate-800">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-800 border border-slate-700 text-xs font-medium text-slate-300 mb-6">
+                <i data-lucide="bar-chart-3" class="w-4 h-4 text-amber-400"></i>
+                <span>부산대학교 IT 및 AI 관련 학과 주요 지표 분석 보고서</span>
+            </div>
+            <h1 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight mb-6">
+                데이터로 분석하는 대학 첨단 분야 경쟁력<br/>
+                <span class="gradient-text">부산대 IT·AI 학과 심층 지표 분석</span>
+            </h1>
+            <p class="text-slate-300 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto">
+                2025년 교육 통계 데이터를 바탕으로 부산대학교 내 IT 및 AI 분야 학과의 신입생 경쟁률, 재학생 규모, 1인당 장학금 수혜 수준을 다각도로 분석하여 첨단 분야의 현주소를 파악합니다.
+            </p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-4 py-12 flex-grow space-y-12">
+        
+        <!-- Highlights Overview Cards -->
+        <div>
+            <h2 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                <i data-lucide="award" class="w-5 h-5 text-amber-400"></i>
+                IT/AI 분야 핵심 지표 하이라이트
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="glass-card p-6 rounded-3xl border border-amber-500/40 space-y-2">
+                    <span class="text-xs font-semibold text-amber-400 uppercase tracking-wider block">최고 경쟁률 학과</span>
+                    <div class="text-lg font-bold text-white">전기전자공학부 반도체공학전공</div>
+                    <div class="text-2xl font-extrabold text-amber-400">8.7 : 1</div>
+                    <p class="text-xs text-slate-400 leading-relaxed pt-1">첨단 전략 산업 전공에 대한 높은 수험생 선호도가 반영된 결과입니다.</p>
+                </div>
+                <div class="glass-card p-6 rounded-3xl border border-indigo-500/40 space-y-2">
+                    <span class="text-xs font-semibold text-indigo-400 uppercase tracking-wider block">최대 재학생 보유 학과</span>
+                    <div class="text-lg font-bold text-white">정보컴퓨터공학부 (통합)</div>
+                    <div class="text-2xl font-extrabold text-indigo-400">317명</div>
+                    <p class="text-xs text-slate-400 leading-relaxed pt-1">학부 단위 모집 및 전공 분화 전 통합 인원을 포함하여 가장 큰 규모를 형성하고 있습니다.</p>
+                </div>
+                <div class="glass-card p-6 rounded-3xl border border-purple-500/40 space-y-2">
+                    <span class="text-xs font-semibold text-purple-400 uppercase tracking-wider block">최고 장학금 지원 학과 (대학원)</span>
+                    <div class="text-lg font-bold text-white">정보융합공학과 (의생명융합)</div>
+                    <div class="text-xl font-extrabold text-purple-400">11,550,888 원</div>
+                    <p class="text-xs text-slate-400 leading-relaxed pt-1">BK21 등 대형 국책 사업 및 연구 인건비 성격의 장학금이 집중 투입되었습니다.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Visual Chart Section -->
+        <div class="glass-card p-6 sm:p-8 rounded-3xl border border-slate-700 space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                        <i data-lucide="pie-chart" class="w-5 h-5 text-amber-400"></i>
+                        주요 학과 지표 시각화
+                    </h2>
+                    <p class="text-xs text-slate-400 mt-1">학부 및 대학원 주요 학과의 재학생 수 및 1인당 장학금 비교 차트입니다.</p>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="updateChart('students')" id="btn-chart-students" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-amber-500 text-slate-950 transition">재학생 수</button>
+                    <button onclick="updateChart('scholarship')" id="btn-chart-scholarship" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">1인당 장학금</button>
+                </div>
+            </div>
+            <div class="h-64 sm:h-80 w-full">
+                <canvas id="deptChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Detailed Table Section -->
+        <div class="glass-card p-6 sm:p-8 rounded-3xl border border-slate-700">
+            <div class="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
+                <div>
+                    <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                        <i data-lucide="table" class="w-5 h-5 text-amber-400"></i>
+                        IT 및 AI 관련 학과 주요 지표 상세 데이터 (2025)
+                    </h2>
+                    <p class="text-xs text-slate-400 mt-1">소수점 이하 '.0' 표기 및 공백은 '자료 없음'으로 처리되었습니다.</p>
+                </div>
+                <div class="flex flex-wrap items-center gap-2">
+                    <!-- 검색 및 필터 -->
+                    <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="학과명 검색..." class="px-3 py-1.5 rounded-xl bg-slate-800 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-500">
+                    <select id="typeFilter" onchange="filterTable()" class="px-3 py-1.5 rounded-xl bg-slate-800 border border-slate-700 text-xs text-white focus:outline-none focus:border-amber-500">
+                        <option value="all">전체 구문</option>
+                        <option value="undergrad">학부 과정</option>
+                        <option value="grad">대학원 과정</option>
+                    </select>
+                </div>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs sm:text-sm text-slate-300" id="dataTable">
+                    <thead class="bg-slate-800/80 text-slate-200 uppercase text-xs border-b border-slate-700">
+                        <tr>
+                            <th class="py-3 px-4">학과(전공)명</th>
+                            <th class="py-3 px-4 text-center">신입생 경쟁률 (n:1)</th>
+                            <th class="py-3 px-4 text-center">재학생 수 (명)</th>
+                            <th class="py-3 px-4 text-right">1인당 장학금 (원)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-800/60" id="tableBody">
+                        <tr class="hover:bg-slate-800/40 transition" data-type="undergrad">
+                            <td class="py-3 px-4 font-bold text-white">전기전자공학부 반도체공학전공</td>
+                            <td class="py-3 px-4 text-center font-bold text-amber-400">8.7</td>
+                            <td class="py-3 px-4 text-center">64</td>
+                            <td class="py-3 px-4 text-right font-mono">7,100,908</td>
+                        </tr>
+                        <tr class="hover:bg-slate-800/40 transition" data-type="undergrad">
+                            <td class="py-3 px-4 font-bold text-white">IT응용공학과 (학부)</td>
+                            <td class="py-3 px-4 text-center font-bold text-amber-400">7.6</td>
+                            <td class="py-3 px-4 text-center">132</td>
+                            <td class="py-3 px-4 text-right font-mono">3,056,400</td>
+                        </tr>
+                        <tr class="hover:bg-slate-800/40 transition" data-type="undergrad">
+                            <td class="py-3 px-4 font-bold text-white">정보컴퓨터공학부 컴퓨터공학전공</td>
+                            <td class="py-3 px-4 text-center font-bold text-amber-400">7.6</td>
+                            <td class="py-3 px-4 text-center">198</td>
+                            <td class="py-3 px-4 text-right font-mono">4,257,092</td>
+                        </tr>
+                        <tr class="hover:bg-slate-800/40 transition" data-type="undergrad">
+                            <td class="py-3 px-4 font-bold text-white">정보컴퓨터공학부 인공지능전공</td>
+                            <td class="py-3 px-4 text-center font-bold text-amber-400">7.5</td>
+                            <td class="py-3 px-4 text-center">154</td>
+                            <td class="py-3 px-4 text-right font-mono">4,129,779</td>
+                        </tr>
+                        <tr class="hover:bg-slate-800/40 transition" data-type="undergrad">
+                            <td class="py-3 px-4 font-bold text-white">의생명융합공학부 (학부)</td>
+                            <td class="py-3 px-4 text-center font-bold text-amber-400">7.0</td>
+                            <td class="py-3 px-4 text-center">182</td>
+                            <td class="py-3 px-4 text-right font-mono">3,424,906</td>
+                        </tr>
+                        <tr class="hover:bg-slate-800/40 transition" data-type="undergrad">
+                            <td class="py-3 px-4 text-white">데이터사이언스전공 (학부)</td>
+                            <td class="py-3 px-4 text-center text-slate-500">-</td>
+                            <td class="py-3 px-4 text-center">82</td>
+                            <td class="py-3 px-4 text-right font-mono">3,478,770</td>
+                        </tr>
+                        <tr class="hover:bg-slate-800/40 transition" data-type="undergrad">
+                            <td class="py-3 px-4 text-white">의생명공학전공 (학부)</td>
+                            <td class="py-3 px-4 text-center text-slate-500">-</td>
+                            <td class="py-3 px-4 text-center">76</td>
+                            <td class="py-3 px-4 text-right font-mono">4,343,214</td>
+                        </tr>
+                        <tr class="hover:bg-slate-800/40 transition" data-type="undergrad">
+                            <td class="py-3 px-4 text-white">정보컴퓨터공학부 (학부)</td>
+                            <td class="py-3 px-4 text-center text-slate-500">-</td>
+                            <td class="py-3 px-4 text-center font-bold text-indigo-400">317</td>
+                            <td class="py-3 px-4 text-right font-mono">3,286,784</td>
+                        </tr>
+                        <tr class="hover:bg-slate-800/40 transition" data-type="grad">
+                            <td class="py-3 px-4 text-white">정보융합공학과 (의생명융합, 대학원)</td>
+                            <td class="py-3 px-4 text-center text-slate-500">-</td>
+                            <td class="py-3 px-4 text-center">32</td>
+                            <td class="py-3 px-4 text-right font-bold font-mono text-purple-400">11,550,888</td>
+                        </tr>
+                        <tr class="hover:bg-slate-800/40 transition" data-type="grad">
+                            <td class="py-3 px-4 text-white">정보융합공학과 (컴퓨터공학·AI, 대학원)</td>
+                            <td class="py-3 px-4 text-center text-slate-500">-</td>
+                            <td class="py-3 px-4 text-center">190</td>
+                            <td class="py-3 px-4 text-right font-mono">11,499,114</td>
+                        </tr>
+                        <tr class="hover:bg-slate-800/40 transition" data-type="grad">
+                            <td class="py-3 px-4 text-white">데이터사이언스학과 (대학원)</td>
+                            <td class="py-3 px-4 text-center text-slate-500">-</td>
+                            <td class="py-3 px-4 text-center">45</td>
+                            <td class="py-3 px-4 text-right font-mono">218,182</td>
+                        </tr>
+                        <tr class="hover:bg-slate-800/40 transition" data-type="grad">
+                            <td class="py-3 px-4 text-white">ICT융합학과 (대학원)</td>
+                            <td class="py-3 px-4 text-center text-slate-500">-</td>
+                            <td class="py-3 px-4 text-center">23</td>
+                            <td class="py-3 px-4 text-right font-mono">285,714</td>
+                        </tr>
+                        <tr class="hover:bg-slate-800/40 transition" data-type="grad">
+                            <td class="py-3 px-4 text-white">AI융합교육전공 (대학원)</td>
+                            <td class="py-3 px-4 text-center text-slate-500">-</td>
+                            <td class="py-3 px-4 text-center">49</td>
+                            <td class="py-3 px-4 text-right text-slate-500">자료 없음</td>
+                        </tr>
+                        <tr class="hover:bg-slate-800/40 transition" data-type="grad">
+                            <td class="py-3 px-4 text-white">산업데이터사이언스융합학과 (대학원)</td>
+                            <td class="py-3 px-4 text-center text-slate-500">-</td>
+                            <td class="py-3 px-4 text-center">5</td>
+                            <td class="py-3 px-4 text-right text-slate-500">자료 없음</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- University Benchmark Comparison -->
+        <div class="glass-card p-6 sm:p-8 rounded-3xl border border-slate-700">
+            <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                <i data-lucide="bar-chart" class="w-5 h-5 text-indigo-400"></i>
+                부산대학교 전체 학과 기초 통계 비교 (Cleaned Mean)
+            </h2>
+            <p class="text-xs text-slate-300 mb-6 leading-relaxed">
+                대학 전체 373개 학과 및 전공 데이터 중 결측치(0 또는 .0)를 제외한 벤치마크 지표 평균값입니다.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                <div class="p-4 rounded-2xl bg-slate-900/70 border border-slate-700 space-y-2">
+                    <span class="text-slate-400 font-semibold block">신입생 평균 경쟁률</span>
+                    <div class="text-2xl font-bold text-white">약 9.12 : 1</div>
+                    <p class="text-[11px] text-slate-500">최대: 약학부 (24.5) / 최소: 무용학과 (3.6)</p>
+                </div>
+                <div class="p-4 rounded-2xl bg-slate-900/70 border border-slate-700 space-y-2">
+                    <span class="text-slate-400 font-semibold block">재학생 평균 규모</span>
+                    <div class="text-2xl font-bold text-white">약 108.4 명</div>
+                    <p class="text-[11px] text-slate-500">최대: 기계공학부 (1,173명)</p>
+                </div>
+                <div class="p-4 rounded-2xl bg-slate-900/70 border border-slate-700 space-y-2">
+                    <span class="text-slate-400 font-semibold block">1인당 평균 장학금</span>
+                    <div class="text-2xl font-bold text-white">약 3,642,800 원</div>
+                    <p class="text-[11px] text-slate-500">최대: 의학과 (29,394,696원)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analysis Conclusion & Notes -->
+        <div class="glass-card p-6 sm:p-8 rounded-3xl border border-amber-500/30 space-y-4">
+            <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                <i data-lucide="info" class="w-5 h-5 text-amber-400"></i>
+                데이터 분석 시사점 및 유의사항
+            </h3>
+            <ul class="text-xs text-slate-300 space-y-2.5 list-disc list-inside leading-relaxed">
+                <li><strong class="text-white">첨단 분야 선호도 집중:</strong> 반도체 및 컴퓨터공학, 인공지능 전공의 경쟁률이 높은 수치를 기록하며 전략 산업 중심의 입시 트렌드를 증명합니다.</li>
+                <li><strong class="text-white">대학원 연구 지원 집중:</strong> 정보융합공학과 등 대학원 과정은 대형 국책 사업(BK21 등)으로 인해 학부 대비 상당히 높은 장학 수혜 혜택을 보이고 있습니다.</li>
+                <li><strong class="text-white">결측치 처리 기준:</strong> 본 리포트는 2025년 교육 통계 원본 데이터를 엄격히 준수하여 결측치('.0')는 제외하고 유효 수치 위주로 산출하였습니다.</li>
+            </ul>
+        </div>
+
+        <!-- 하단 홈 이동 안내 바 -->
+        <div class="p-6 rounded-3xl bg-gradient-to-r from-amber-900/60 to-indigo-900/60 border border-amber-700/50 text-center flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="text-left">
+                <h3 class="font-bold text-white text-base">포트폴리오 메인으로 이동하기</h3>
+                <p class="text-xs text-amber-200 mt-0.5">김도영 학생의 다른 탐구 프로젝트 카드를 확인해보세요.</p>
+            </div>
+            <a href="https://kdysky09-wq.github.io/AI-2026/" class="px-6 py-3 rounded-xl bg-white hover:bg-slate-100 text-slate-950 font-extrabold text-xs transition-colors shadow-md flex items-center gap-2 flex-shrink-0">
+                <i data-lucide="home" class="w-4 h-4 text-amber-600"></i>
+                <span>메인 포트폴리오 홈</span>
+            </a>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 border-t border-slate-800 py-8 text-center text-slate-500 text-sm">
+        <p>© 2026 금정고등학교 김도영 인공지능일반 포트폴리오</p>
+    </footer>
+
+    <script>
+        // Lucide Icons Init
+        lucide.createIcons();
+
+        // Chart Data & Config
+        const labels = [
+            '반도체공학', 'IT응용공학', '컴퓨터공학', '인공지능',
+            '의생명융합', '정보컴퓨터(학부)', '정보융합(의생명)', '정보융합(컴공/AI)'
+        ];
+        const studentData = [64, 132, 198, 154, 182, 317, 32, 190];
+        const scholarshipData = [7100908, 3056400, 4257092, 4129779, 3424906, 3286784, 11550888, 11499114];
+
+        const ctx = document.getElementById('deptChart').getContext('2d');
+        let chartInstance = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: '재학생 수 (명)',
+                    data: studentData,
+                    backgroundColor: 'rgba(245, 158, 11, 0.7)',
+                    borderColor: '#F59E0B',
+                    borderWidth: 1,
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { labels: { color: '#CBD5E1', font: { family: 'Pretendard' } } }
+                },
+                scales: {
+                    x: { ticks: { color: '#94A3B8', font: { family: 'Pretendard', size: 10 } }, grid: { color: 'rgba(51, 65, 85, 0.3)' } },
+                    y: { ticks: { color: '#94A3B8', font: { family: 'Pretendard' } }, grid: { color: 'rgba(51, 65, 85, 0.3)' } }
+                }
+            }
+        });
+
+        function updateChart(mode) {
+            const btnStudents = document.getElementById('btn-chart-students');
+            const btnScholarship = document.getElementById('btn-chart-scholarship');
+
+            if (mode === 'students') {
+                chartInstance.data.datasets[0].label = '재학생 수 (명)';
+                chartInstance.data.datasets[0].data = studentData;
+                chartInstance.data.datasets[0].backgroundColor = 'rgba(245, 158, 11, 0.7)';
+                chartInstance.data.datasets[0].borderColor = '#F59E0B';
+                
+                btnStudents.className = "px-3 py-1.5 rounded-lg text-xs font-semibold bg-amber-500 text-slate-950 transition";
+                btnScholarship.className = "px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition";
+            } else {
+                chartInstance.data.datasets[0].label = '1인당 장학금 (원)';
+                chartInstance.data.datasets[0].data = scholarshipData;
+                chartInstance.data.datasets[0].backgroundColor = 'rgba(168, 85, 247, 0.7)';
+                chartInstance.data.datasets[0].borderColor = '#A855F7';
+
+                btnScholarship.className = "px-3 py-1.5 rounded-lg text-xs font-semibold bg-purple-500 text-slate-950 transition";
+                btnStudents.className = "px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition";
+            }
+            chartInstance.update();
+        }
+
+        // Table Search & Filter Logic
+        function filterTable() {
+            const searchVal = document.getElementById('searchInput').value.toLowerCase();
+            const filterVal = document.getElementById('typeFilter').value;
+            const rows = document.querySelectorAll('#tableBody tr');
+
+            rows.forEach(row => {
+                const text = row.cells[0].textContent.toLowerCase();
+                const rowType = row.getAttribute('data-type');
+
+                const matchesSearch = text.includes(searchVal);
+                const matchesFilter = (filterVal === 'all') || (filterVal === rowType);
+
+                if (matchesSearch && matchesFilter) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
