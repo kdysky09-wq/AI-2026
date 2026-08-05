@@ -24,9 +24,7 @@
     </style>
 </head>
 <body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col selection:bg-indigo-500 selection:text-white transition-colors duration-300">
-
     <div id="sidebar-overlay" onclick="toggleSidebar(false)" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden transition-opacity"></div>
-
     <aside id="sidebar-menu" class="fixed top-0 left-0 bottom-0 w-80 sm:w-96 bg-slate-800 border-r border-slate-700 z-50 transform -translate-x-full transition-transform duration-300 flex flex-col justify-between shadow-2xl">
         <div class="p-6 overflow-y-auto flex-grow space-y-6">
             <div class="flex items-center justify-between pb-4 border-b border-slate-700">
@@ -36,7 +34,6 @@
                 </div>
                 <button onclick="toggleSidebar(false)" class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-700 transition-colors"><i data-lucide="x" class="w-5 h-5"></i></button>
             </div>
-
             <div onclick="openModal('profile-modal')" class="p-4 rounded-2xl bg-slate-700/60 hover:bg-slate-700/90 border border-slate-600 flex items-center justify-between gap-3 cursor-pointer transition-all hover:border-indigo-500 group">
                 <div class="flex items-center gap-3">
                     <div class="w-12 h-12 rounded-full gradient-bg flex items-center justify-center text-white font-bold text-lg">김</div>
@@ -50,7 +47,6 @@
                 </div>
                 <i data-lucide="chevron-right" class="w-5 h-5 text-slate-400 group-hover:text-indigo-400 transition-colors"></i>
             </div>
-
             <div class="space-y-2 pt-4 border-t border-slate-700">
                 <label class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-2">포트폴리오 관리</label>
                 <button onclick="openModal('reset-modal'); toggleSidebar(false);" class="w-full flex items-center justify-between p-3 rounded-xl bg-slate-700/40 hover:bg-slate-700 text-amber-300 text-xs font-medium transition-colors">
@@ -59,7 +55,7 @@
                 </button>
             </div>
         </div>
-        <div class="p-4 border-t border-slate-700 text-center text-xs text-slate-500">인공지능일반 v4.2</div>
+        <div class="p-4 border-t border-slate-700 text-center text-xs text-slate-500">인공지능일반 v4.3</div>
     </aside>
 
     <header class="sticky top-0 z-40 bg-slate-900/80 backdrop-blur-md border-b border-slate-800">
@@ -154,12 +150,10 @@
                     <h4 class="text-xs font-bold text-indigo-300 uppercase mb-1.5 flex items-center gap-1.5"><i data-lucide="sparkles" class="w-4 h-4"></i> 주요 성과</h4>
                     <p id="modal-highlight" class="text-indigo-200 font-medium text-xs">성과</p>
                 </div>
-
                 <div class="space-y-3">
                     <h4 class="text-xs font-bold text-slate-400 uppercase mb-2">관련 자료 확인 및 다운로드</h4>
                     <div id="modal-buttons-container" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
                 </div>
-
                 <div>
                     <h4 class="text-xs font-bold text-slate-400 uppercase mb-2">사용 도구 및 기술</h4>
                     <div id="modal-tools" class="flex flex-wrap gap-2"></div>
@@ -207,7 +201,7 @@
     </div>
 
     <script>
-        // 기존 6개 항목 + 7번째 로드맵 카드 포함
+        // 기본 데이터 설정 (진로 데이터 분석 pageUrl 링크를 https://kdysky09-wq.github.io/AI-2026/it_ai 로 변경)
         const defaultData = [
             { 
                 id: '1', 
@@ -249,7 +243,7 @@
                 reflection: '데이터 기반의 객관적 지표를 통해 첨단 학과 현황을 명확히 파악했습니다.', 
                 icon: 'trending-up', 
                 color: 'from-amber-500 to-orange-600', 
-                pageUrl: 'https://kdysky09-wq.github.io/AI-2026/career' 
+                pageUrl: 'https://kdysky09-wq.github.io/AI-2026/it_ai' 
             },
             { 
                 id: '4', 
@@ -312,11 +306,18 @@
             }
         ];
 
-        let portfolioData = JSON.parse(localStorage.getItem('ai_portfolio_v4.2')) || defaultData;
+        let portfolioData = JSON.parse(localStorage.getItem('ai_portfolio_v4.3')) || defaultData;
+        
+        // 데이터 내 진로 데이터 분석 카드 주소 동기화 보장
+        const item3 = portfolioData.find(item => item.id === '3');
+        if (item3) {
+            item3.pageUrl = 'https://kdysky09-wq.github.io/AI-2026/it_ai';
+        }
+
         let activeCategory = 'all', searchQuery = '';
 
         function save() {
-            localStorage.setItem('ai_portfolio_v4.2', JSON.stringify(portfolioData));
+            localStorage.setItem('ai_portfolio_v4.3', JSON.stringify(portfolioData));
             document.getElementById('metric-total-count').innerText = `${portfolioData.length}개`;
         }
 
@@ -362,12 +363,10 @@
         function openCardModal(id) {
             const d = portfolioData.find(i => i.id === id);
             if(!d) return;
-
             if (d.pageUrl) {
                 window.location.href = d.pageUrl;
                 return;
             }
-
             document.getElementById('modal-title').innerText = d.title;
             document.getElementById('modal-category').innerText = d.categoryLabel;
             document.getElementById('modal-description').innerText = d.fullDesc;
@@ -386,12 +385,12 @@
                     <i data-lucide="download" class="w-4 h-4"></i> 발표 자료 다운로드
                 </a>
             `;
-
             document.getElementById('modal-tools').innerHTML = d.tools.map(t => `<span class="px-2.5 py-1 rounded-lg bg-slate-700 text-slate-300 text-xs font-medium border border-slate-600">${t}</span>`).join('');
             openModal('modal');
         }
 
         function executeReset() { portfolioData = defaultData.map(i => ({...i})); save(); renderCards(); closeModal('reset-modal'); }
+
         function filterCards(c) {
             activeCategory = c;
             document.querySelectorAll('.filter-btn').forEach(b => {
