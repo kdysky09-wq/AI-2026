@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="ko" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>부산 축제 인포메이션 & 프로젝트 소개 - 김도영 포트폴리오</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f3ff',
+                            100: '#e1e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            900: '#312e81',
+                        },
+                    },
+                }
+            }
+        }
+    </script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+        * { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif; }
+        .glass-card { background: rgba(30, 41, 59, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(51, 65, 85, 0.8); }
+        .gradient-text { background: linear-gradient(135deg, #F59E0B 0%, #F472B6 50%, #818CF8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .gradient-bg { background: linear-gradient(135deg, #6366F1 0%, #A855F7 100%); }
+        .amber-gradient-bg { background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0F172A; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col selection:bg-amber-500 selection:text-slate-950 transition-colors duration-300">
+
+    <!-- Header -->
+    <header class="sticky top-0 z-40 bg-slate-900/85 backdrop-blur-md border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <!-- Home Link Button -->
+                <a href="https://kdysky09-wq.github.io/AI-2026/" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-amber-400 transition-all border border-slate-700 flex items-center gap-2 text-xs font-bold shadow-sm">
+                    <i data-lucide="home" class="w-4 h-4 text-amber-400"></i>
+                    <span>메인 홈으로</span>
+                </a>
+                <div class="h-4 w-px bg-slate-700 mx-1"></div>
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+                    <div class="p-2 gradient-bg text-white rounded-xl shadow-md"><i data-lucide="sparkles" class="w-5 h-5"></i></div>
+                    <span class="font-bold text-lg text-white block leading-none">부산 축제 가이드</span>
+                </div>
+            </div>
+
+            <!-- Nav Links -->
+            <nav class="hidden md:flex space-x-8 text-sm font-semibold text-slate-300">
+                <a href="#about" class="hover:text-amber-400 transition-colors">축제 소개</a>
+                <a href="#major-festivals" class="hover:text-amber-400 transition-colors">4대 대표 축제</a>
+                <a href="#seasonal" class="hover:text-amber-400 transition-colors">사계절 축제</a>
+                <a href="#festival-list" class="hover:text-amber-400 transition-colors">축제 정보 검색</a>
+            </nav>
+
+            <div class="flex items-center gap-3">
+                <!-- External Site Link Button -->
+                <a href="https://festival11.vercel.app/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-indigo-600 hover:bg-indigo-500 text-white shadow-md transition">
+                    <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                    <span>사이트 둘러보러 가기</span>
+                </a>
+                <span class="hidden lg:inline-block px-3 py-1 rounded-full text-xs font-semibold bg-amber-950/60 text-amber-300 border border-amber-800">금정고 김도영</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow">
+        <!-- Hero Section -->
+        <section id="about" class="pt-16 pb-20 bg-gradient-to-b from-amber-950/30 via-slate-900 to-slate-900 border-b border-slate-800">
+            <div class="max-w-4xl mx-auto px-4 text-center">
+                <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-slate-800 text-amber-300 border border-slate-700 mb-6">
+                    <i data-lucide="map-pin" class="w-4 h-4 text-amber-400"></i> 해양수도 부산의 다채로운 문화 현장
+                </span>
+                <h1 class="text-3xl sm:text-6xl font-black tracking-tight mb-6 leading-tight">
+                    바다와 빛, K-컬처가 만나는<br>
+                    <span class="gradient-text">부산 대표 축제 모음집</span>
+                </h1>
+                <p class="text-slate-300 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto mb-10">
+                    세계적인 영화제부터 밤바다를 화려하게 수놓는 불꽃축제까지! 사계절 내내 생동감 넘치는 부산광역시의 주요 문화 축제 정보와 가이드를 쉽고 빠르게 탐색해보세요.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="https://festival11.vercel.app/" target="_blank" rel="noopener noreferrer" class="px-8 py-4 rounded-xl gradient-bg text-white font-bold shadow-lg transition flex items-center justify-center gap-2 hover:opacity-95">
+                        <i data-lucide="external-link" class="w-5 h-5"></i> 축제 웹사이트 둘러보러 가기
+                    </a>
+                    <a href="https://kdysky09-wq.github.io/AI-2026/" class="px-8 py-4 rounded-xl glass-card font-bold hover:bg-slate-800 transition flex items-center justify-center gap-2 border border-slate-700 text-amber-300">
+                        <i data-lucide="home" class="w-5 h-5 text-amber-400"></i> 메인 포트폴리오 홈으로
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Major Festivals Section -->
+        <section id="major-festivals" class="py-20 bg-slate-900/50 border-b border-slate-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <h2 class="text-3xl font-extrabold mb-4 text-white">부산의 4대 시그니처 축제</h2>
+                    <p class="text-slate-400 text-sm">국내외 관광객이 가장 사랑하는 부산 대표 글로벌 문화 행사입니다.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="glass-card p-6 rounded-3xl border border-slate-700 space-y-4 hover:border-amber-500/50 transition duration-300 flex flex-col justify-between">
+                        <div class="space-y-3">
+                            <div class="w-12 h-12 rounded-2xl bg-amber-950/60 text-amber-400 flex items-center justify-center text-xl border border-amber-800/50">
+                                <i data-lucide="film" class="w-6 h-6"></i>
+                            </div>
+                            <span class="text-xs font-bold text-amber-400">가을 (10월)</span>
+                            <h3 class="text-xl font-bold text-white">부산국제영화제 (BIFF)</h3>
+                            <p class="text-slate-400 text-xs leading-relaxed">
+                                아시아 최대 규모의 영화 축제로, 세계 각국의 우수한 영화와 거장 감독, 배우들이 센텀시티 영화의전당에 모여 영화 예술을 전합니다.
+                            </p>
+                        </div>
+                        <div class="pt-4 border-t border-slate-800 text-xs text-slate-500 flex justify-between items-center">
+                            <span>위치: 센텀시티 영화의전당</span>
+                        </div>
+                    </div>
+
+                    <div class="glass-card p-6 rounded-3xl border border-slate-700 space-y-4 hover:border-indigo-500/50 transition duration-300 flex flex-col justify-between">
+                        <div class="space-y-3">
+                            <div class="w-12 h-12 rounded-2xl bg-indigo-950/60 text-indigo-400 flex items-center justify-center text-xl border border-indigo-800/50">
+                                <i data-lucide="flame" class="w-6 h-6"></i>
+                            </div>
+                            <span class="text-xs font-bold text-indigo-400">가을/겨울 (11월)</span>
+                            <h3 class="text-xl font-bold text-white">부산불꽃축제</h3>
+                            <p class="text-slate-400 text-xs leading-relaxed">
+                                광안대교를 배경으로 펼쳐지는 초대형 멀티미디어 불꽃쇼입니다. 첨단 조명 및 음악과 결합된 한밤의 환상적인 라이트 쇼가 펼쳐집니다.
+                            </p>
+                        </div>
+                        <div class="pt-4 border-t border-slate-800 text-xs text-slate-500 flex justify-between items-center">
+                            <span>위치: 광안리 해수욕장 일원</span>
+                        </div>
+                    </div>
+
+                    <div class="glass-card p-6 rounded-3xl border border-slate-700 space-y-4 hover:border-pink-500/50 transition duration-300 flex flex-col justify-between">
+                        <div class="space-y-3">
+                            <div class="w-12 h-12 rounded-2xl bg-pink-950/60 text-pink-400 flex items-center justify-center text-xl border border-pink-800/50">
+                                <i data-lucide="music" class="w-6 h-6"></i>
+                            </div>
+                            <span class="text-xs font-bold text-pink-400">여름 (8월)</span>
+                            <h3 class="text-xl font-bold text-white">부산바다축제</h3>
+                            <p class="text-slate-400 text-xs leading-relaxed">
+                                해운대와 다대포를 비롯한 주요 해수욕장에서 열리는 시원한 여름 축제입니다. 워터 파티, 버스킹, 해변 콘서트가 가득합니다.
+                            </p>
+                        </div>
+                        <div class="pt-4 border-t border-slate-800 text-xs text-slate-500 flex justify-between items-center">
+                            <span>위치: 해운대·다대포 해수욕장</span>
+                        </div>
+                    </div>
+
+                    <div class="glass-card p-6 rounded-3xl border border-slate-700 space-y-4 hover:border-purple-500/50 transition duration-300 flex flex-col justify-between">
+                        <div class="space-y-3">
+                            <div class="w-12 h-12 rounded-2xl bg-purple-950/60 text-purple-400 flex items-center justify-center text-xl border border-purple-800/50">
+                                <i data-lucide="radio" class="w-6 h-6"></i>
+                            </div>
+                            <span class="text-xs font-bold text-purple-400">가을 (10월)</span>
+                            <h3 class="text-xl font-bold text-white">부산원아시아페스티벌</h3>
+                            <p class="text-slate-400 text-xs leading-relaxed">
+                                최정상 K-POP 아티스트들과 아시아 전역의 한류 팬들이 함께하는 대표 한류 문화 축제(BOF)로 콘서트와 체험 부스가 구성됩니다.
+                            </p>
+                        </div>
+                        <div class="pt-4 border-t border-slate-800 text-xs text-slate-500 flex justify-between items-center">
+                            <span>위치: 부산아시아드주경기장</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seasonal Section -->
+        <section id="seasonal" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-3xl font-extrabold mb-4 text-white">사계절 내내 즐기는 부산 축제 캘린더</h2>
+                <p class="text-slate-400 text-sm">계절마다 색다른 매력을 선사하는 부산의 주요 행사를 확인해보세요.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="glass-card p-6 rounded-3xl border border-slate-700 space-y-3">
+                    <div class="flex items-center gap-2 text-emerald-400 font-bold text-sm">
+                        <i data-lucide="flower-2" class="w-5 h-5"></i>
+                        <span>SPRING (봄)</span>
+                    </div>
+                    <h4 class="font-bold text-lg text-white">낙동강 유채꽃 & 벚꽃 축제</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed">삼락생태공원과 삼락 벚꽃길을 따라 피어나는 봄꽃 단지와 시민 피크닉이 열립니다.</p>
+                </div>
+
+                <div class="glass-card p-6 rounded-3xl border border-slate-700 space-y-3">
+                    <div class="flex items-center gap-2 text-cyan-400 font-bold text-sm">
+                        <i data-lucide="sun" class="w-5 h-5"></i>
+                        <span>SUMMER (여름)</span>
+                    </div>
+                    <h4 class="font-bold text-lg text-white">부산 수제맥주 페스티벌</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed">BEXCO 야외광장에서 전국 유명 수제맥주 브루어리와 푸드트럭, 푸드존이 함께하는 여름밤 축제입니다.</p>
+                </div>
+
+                <div class="glass-card p-6 rounded-3xl border border-slate-700 space-y-3">
+                    <div class="flex items-center gap-2 text-amber-400 font-bold text-sm">
+                        <i data-lucide="leaf" class="w-5 h-5"></i>
+                        <span>AUTUMN (가을)</span>
+                    </div>
+                    <h4 class="font-bold text-lg text-white">부산자갈치축제</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed">"오이소! 보이소! 사이소!" 신선한 수산물과 전통 시장의 활기를 느낄 수 있는 대표 전통 문화 축제입니다.</p>
+                </div>
+
+                <div class="glass-card p-6 rounded-3xl border border-slate-700 space-y-3">
+                    <div class="flex items-center gap-2 text-blue-400 font-bold text-sm">
+                        <i data-lucide="snowflake" class="w-5 h-5"></i>
+                        <span>WINTER (겨울)</span>
+                    </div>
+                    <h4 class="font-bold text-lg text-white">해운대 빛축제 & 트리문화축제</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed">해운대 백사장과 구남로 일대를 수놓는 환상적인 미디어 아트와 빛 조형물이 겨울밤을 온화하게 밝힙니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Festival Data Table Section -->
+        <section id="festival-list" class="py-20 bg-slate-950/50 border-y border-slate-800">
+            <div class="max-w-6xl mx-auto px-4 space-y-12">
+                <div class="text-center max-w-3xl mx-auto">
+                    <span class="text-xs font-bold uppercase tracking-wider text-amber-400 bg-amber-950/60 px-3 py-1 rounded-full border border-amber-800">축제 가이드 데이터</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-3 mb-4">부산 주요 축제 및 행사 목록</h2>
+                    <p class="text-slate-400 text-sm">원하는 축제 이름을 실시간으로 검색하여 개최 시기와 주요 장소를 확인하세요.</p>
+                </div>
+
+                <div class="glass-card p-6 sm:p-8 rounded-3xl border border-slate-700 space-y-6">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div class="flex items-center gap-2 text-white font-bold text-lg">
+                            <i data-lucide="calendar" class="w-5 h-5 text-amber-400"></i>
+                            <span>연간 주요 축제 데이터베이스</span>
+                        </div>
+                        <div class="relative">
+                            <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+                            <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="축제명 또는 장소 검색..." 
+                                class="pl-9 pr-4 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-slate-200 focus:outline-none focus:border-amber-500 w-64">
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table id="festivalTable" class="w-full text-left text-xs sm:text-sm text-slate-300">
+                            <thead class="bg-slate-800/80 text-slate-200 uppercase text-xs border-b border-slate-700">
+                                <tr>
+                                    <th class="py-3.5 px-4">축제명</th>
+                                    <th class="py-3.5 px-4 text-center">개최 시기</th>
+                                    <th class="py-3.5 px-4">개최 장소</th>
+                                    <th class="py-3.5 px-4">주요 테마</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-800/60">
+                                <tr class="hover:bg-slate-800/40 transition">
+                                    <td class="py-3 px-4 font-bold text-white">부산국제영화제 (BIFF)</td>
+                                    <td class="py-3 px-4 text-center font-bold text-amber-400">10월 중</td>
+                                    <td class="py-3 px-4 text-slate-300">센텀시티 영화의전당 일원</td>
+                                    <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-indigo-950 text-indigo-300 border border-indigo-800 text-xs">영화/예술</span></td>
+                                </tr>
+                                <tr class="hover:bg-slate-800/40 transition">
+                                    <td class="py-3 px-4 font-bold text-white">부산불꽃축제</td>
+                                    <td class="py-3 px-4 text-center font-bold text-amber-400">11월 중</td>
+                                    <td class="py-3 px-4 text-slate-300">광안리 해수욕장, 광안대교</td>
+                                    <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-amber-950 text-amber-300 border border-amber-800 text-xs">불꽃/멀티미디어</span></td>
+                                </tr>
+                                <tr class="hover:bg-slate-800/40 transition">
+                                    <td class="py-3 px-4 font-bold text-white">부산바다축제</td>
+                                    <td class="py-3 px-4 text-center font-bold text-amber-400">8월 초</td>
+                                    <td class="py-3 px-4 text-slate-300">해운대·다대포 해수욕장</td>
+                                    <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-blue-950 text-blue-300 border border-blue-800 text-xs">해양/음악</span></td>
+                                </tr>
+                                <tr class="hover:bg-slate-800/40 transition">
+                                    <td class="py-3 px-4 font-bold text-white">부산원아시아페스티벌 (BOF)</td>
+                                    <td class="py-3 px-4 text-center font-bold text-amber-400">10월 중</td>
+                                    <td class="py-3 px-4 text-slate-300">부산아시아드주경기장</td>
+                                    <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-pink-950 text-pink-300 border border-pink-800 text-xs">K-POP/한류</span></td>
+                                </tr>
+                                <tr class="hover:bg-slate-800/40 transition">
+                                    <td class="py-3 px-4 font-bold text-white">해운대 빛축제</td>
+                                    <td class="py-3 px-4 text-center font-bold text-amber-400">12월 ~ 1월</td>
+                                    <td class="py-3 px-4 text-slate-300">해운대 해수욕장 & 구남로</td>
+                                    <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-800 text-xs">빛/미디어아트</span></td>
+                                </tr>
+                                <tr class="hover:bg-slate-800/40 transition">
+                                    <td class="py-3 px-4 font-bold text-white">부산자갈치축제</td>
+                                    <td class="py-3 px-4 text-center font-bold text-amber-400">10월 중</td>
+                                    <td class="py-3 px-4 text-slate-300">자갈치시장 일원</td>
+                                    <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800 text-xs">전통/수산물</span></td>
+                                </tr>
+                                <tr class="hover:bg-slate-800/40 transition">
+                                    <td class="py-3 px-4 font-bold text-white">부산 국제 수제맥주 페스티벌</td>
+                                    <td class="py-3 px-4 text-center font-bold text-amber-400">6월 ~ 7월</td>
+                                    <td class="py-3 px-4 text-slate-300">BEXCO 야외광장</td>
+                                    <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-purple-950 text-purple-300 border border-purple-800 text-xs">식음료/미식</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Bottom CTA Card -->
+                <div class="p-8 rounded-3xl bg-gradient-to-r from-amber-900/50 via-purple-900/50 to-indigo-900/50 border border-amber-500/40 text-center flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
+                    <div class="text-left space-y-1">
+                        <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-amber-400/20 text-amber-300 mb-1">
+                            <i data-lucide="compass" class="w-3.5 h-3.5"></i>
+                            <span>실시간 둘러보기</span>
+                        </div>
+                        <h3 class="font-extrabold text-white text-xl">부산 축제 웹사이트 방문하기</h3>
+                        <p class="text-xs text-slate-300">더 많은 축제 정보와 일정 및 상세 안내는 외부 축제 플랫폼에서 자유롭게 확인해보세요.</p>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+                        <a href="https://festival11.vercel.app/" target="_blank" rel="noopener noreferrer" class="px-6 py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold text-xs transition-colors shadow-lg flex items-center justify-center gap-2 flex-shrink-0">
+                            <i data-lucide="external-link" class="w-4 h-4"></i>
+                            <span>사이트 둘러보러 가기</span>
+                        </a>
+                        <a href="https://kdysky09-wq.github.io/AI-2026/" class="px-6 py-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-300 font-extrabold text-xs transition-colors border border-slate-700 flex items-center justify-center gap-2 flex-shrink-0">
+                            <i data-lucide="home" class="w-4 h-4 text-amber-400"></i>
+                            <span>메인 홈으로</span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 border-t border-slate-800 py-10 text-center text-slate-500 text-xs">
+        <div class="max-w-7xl mx-auto px-4 space-y-3">
+            <div class="flex justify-center items-center gap-4 text-slate-400 font-semibold mb-2">
+                <a href="https://festival11.vercel.app/" target="_blank" rel="noopener noreferrer" class="hover:text-amber-400 transition-colors flex items-center gap-1">
+                    <i data-lucide="external-link" class="w-3.5 h-3.5"></i> 부산 축제 웹사이트
+                </a>
+                <span>•</span>
+                <a href="https://kdysky09-wq.github.io/AI-2026/" class="hover:text-amber-400 transition-colors flex items-center gap-1">
+                    <i data-lucide="home" class="w-3.5 h-3.5"></i> 메인 포트폴리오
+                </a>
+            </div>
+            <p>© 2026 금정고등학교 김도영 포트폴리오 | 부산 축제 가이드 프로젝트</p>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Search Filter Logic for Festival Table
+        function filterTable() {
+            const input = document.getElementById('searchInput');
+            const filter = input.value.toLowerCase();
+            const table = document.getElementById('festivalTable');
+            const trs = table.getElementsByTagName('tr');
+
+            for (let i = 1; i < trs.length; i++) {
+                const tds = trs[i].getElementsByTagName('td');
+                let match = false;
+                
+                // Search in Festival Name and Location
+                if (tds[0] || tds[2]) {
+                    const nameText = tds[0].textContent || tds[0].innerText;
+                    const locationText = tds[2].textContent || tds[2].innerText;
+                    
+                    if (nameText.toLowerCase().indexOf(filter) > -1 || locationText.toLowerCase().indexOf(filter) > -1) {
+                        match = true;
+                    }
+                }
+                
+                if (match) {
+                    trs[i].style.display = "";
+                } else {
+                    trs[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
+</html>
