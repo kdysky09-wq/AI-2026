@@ -69,7 +69,7 @@
                 </button>
             </div>
         </div>
-        <div class="p-4 border-t border-slate-700 text-center text-xs text-slate-500">인공지능일반 v4.5</div>
+        <div class="p-4 border-t border-slate-700 text-center text-xs text-slate-500">인공지능일반 v4.6</div>
     </aside>
 
     <header class="sticky top-0 z-40 bg-slate-900/80 backdrop-blur-md border-b border-slate-800">
@@ -97,12 +97,12 @@
             <h1 class="text-4xl sm:text-6xl font-extrabold text-white tracking-tight leading-tight mb-6">
                 인공지능으로 세상을 읽고<br/><span class="gradient-text">내일을 디자인하다</span>
             </h1>
-            <p class="text-lg text-slate-300 mb-12">"인공지능일반" 교과 수업을 통해 탐구한 생성형 AI 윤리, 영상 제작, 데이터 분석 및 모바일 응용의 기록입니다.</p>
+            <p class="text-lg text-slate-300 mb-12">"인공지능일반" 교과 수업을 통해 탐구한 생성형 AI 윤리, 영상 제작, 데이터 분석 및 웹 응용의 기록입니다.</p>
             
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-left">
                 <div class="p-4 rounded-2xl bg-slate-800 border border-slate-700 shadow-sm">
                     <i data-lucide="folder-check" class="w-6 h-6 text-indigo-400 mb-2"></i>
-                    <div id="metric-total-count" class="text-2xl font-bold text-white">9개</div>
+                    <div id="metric-total-count" class="text-2xl font-bold text-white">8개</div>
                     <div class="text-xs text-slate-400">탐구 프로젝트</div>
                 </div>
                 <div class="p-4 rounded-2xl bg-slate-800 border border-slate-700 shadow-sm">
@@ -128,7 +128,7 @@
         <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
             <div>
                 <h2 class="text-3xl font-bold text-white tracking-tight">학습 포트폴리오 컬렉션</h2>
-                <p class="text-slate-400 text-sm mt-1">김도영 학생의 주요 탐구 활동 및 성장 로드맵 카드입니다.</p>
+                <p class="text-slate-400 text-sm mt-1">김도영 학생의 주요 탐구 활동 및 학습 성찰 카드입니다.</p>
             </div>
             <div class="flex flex-wrap items-center gap-2">
                 <button onclick="filterCards('all')" class="filter-btn active px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 text-white" data-category="all">전체</button>
@@ -158,23 +158,23 @@
             </div>
             <div class="p-6 space-y-6 text-sm">
                 <div>
-                    <h4 class="text-xs font-bold text-slate-400 uppercase mb-2">프로젝트 개요</h4>
+                    <h4 class="text-xs font-bold text-slate-400 uppercase mb-2">학습 성찰 및 탐구 개요</h4>
                     <p id="modal-description" class="text-slate-200 leading-relaxed">내용</p>
                 </div>
                 <div class="bg-indigo-950/40 border border-indigo-900 rounded-2xl p-4">
-                    <h4 class="text-xs font-bold text-indigo-300 uppercase mb-1.5 flex items-center gap-1.5"><i data-lucide="sparkles" class="w-4 h-4"></i> 주요 성과</h4>
+                    <h4 class="text-xs font-bold text-indigo-300 uppercase mb-1.5 flex items-center gap-1.5"><i data-lucide="sparkles" class="w-4 h-4"></i> 핵심 배움 및 역량</h4>
                     <p id="modal-highlight" class="text-indigo-200 font-medium text-xs">성과</p>
                 </div>
-                <div class="space-y-3">
-                    <h4 class="text-xs font-bold text-slate-400 uppercase mb-2">관련 자료 확인 및 다운로드</h4>
+                <div id="modal-buttons-wrapper" class="space-y-3">
+                    <h4 class="text-xs font-bold text-slate-400 uppercase mb-2">관련 자료</h4>
                     <div id="modal-buttons-container" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
                 </div>
                 <div>
-                    <h4 class="text-xs font-bold text-slate-400 uppercase mb-2">사용 도구 및 기술</h4>
+                    <h4 class="text-xs font-bold text-slate-400 uppercase mb-2">사용 도구 및 키워드</h4>
                     <div id="modal-tools" class="flex flex-wrap gap-2"></div>
                 </div>
                 <div class="p-4 bg-slate-900/60 rounded-xl border border-slate-700 italic text-slate-300">
-                    <h4 class="text-[10px] font-bold text-slate-500 uppercase not-italic mb-1">성찰</h4>
+                    <h4 class="text-[10px] font-bold text-slate-500 uppercase not-italic mb-1">한 줄 소감</h4>
                     <p id="modal-reflection">소감</p>
                 </div>
             </div>
@@ -216,7 +216,7 @@
     </div>
 
     <script>
-        // 기본 데이터 설정 (급식 서비스 학교앱 프로젝트 카드 포함)
+        // 기본 데이터 설정 (로드맵 제거, 총 8개 카드, 6번 성찰 카드는 pageUrl 없이 팝업으로 동작)
         const defaultData = [
             { 
                 id: '1', 
@@ -319,60 +319,41 @@
             { 
                 id: '6', 
                 category: 'ethics', 
-                categoryLabel: '학습 성장', 
-                title: '포트폴리오 최종 개편', 
-                shortDesc: '학습 과정을 통합한 인터랙티브 랜딩페이지', 
-                fullDesc: '한 학기 동안의 모든 성과물을 다크모드 기반의 웹 포트폴리오로 직접 구축하고 정리했습니다.', 
-                highlight: '포트폴리오 웹사이트 구축 성공', 
-                tools: ['HTML/CSS', 'Lucide Icons'], 
-                reflection: '디지털 세상에 나만의 발자취를 남기는 경험이었습니다.', 
-                icon: 'award', 
-                color: 'from-indigo-500 to-purple-600', 
-                pptUrl: '#', 
-                reportUrl: '#' 
-            },
-            { 
-                id: '7', 
-                category: 'ethics', 
-                categoryLabel: '학습 로드맵', 
-                title: '학습 성장 로드맵 (Roadmap)', 
-                shortDesc: 'AI 활용 원칙부터 포트폴리오 완성까지의 단계별 학습 과정', 
-                fullDesc: '1단계(AI 윤리) ➔ 2단계(AI 영상) ➔ 3단계(진로 데이터) ➔ 4단계(진로 리포트) ➔ 5단계(지역 문제) ➔ 6단계(스쿨급식 서비스) ➔ 7단계(포트폴리오 구축)로 이어지는 종합적인 청사진입니다.', 
-                highlight: '체계적인 인공지능 융합 인재 성장 로드맵 수립 완료', 
-                tools: ['Growth Roadmap', 'Strategy', '5-Year Plan'], 
-                reflection: '각 학습 단계를 연계하여 종합적인 문제 해결 역량을 쌓을 수 있었습니다.', 
-                icon: 'compass', 
-                color: 'from-teal-500 to-emerald-600', 
-                pptUrl: '#', 
-                reportUrl: '#' 
+                categoryLabel: '학습 성찰', 
+                title: '학습 성찰 및 총평', 
+                shortDesc: '인공지능일반 탐구 과정과 성장에 대한 50단어 종합 성찰', 
+                fullDesc: '한 학기 동안 인공지능일반 교과 수업을 이수하며 AI 기술의 원리와 윤리, 데이터 분석, 그리고 모바일 웹 서비스 제작까지 폭넓은 영역을 경험했습니다. 단순히 인공지능 도구를 활용하는 데 그치지 않고, 비판적 사고를 기반으로 사실관계를 검증하며 지역 사회와 학교 현장의 문제를 직접 해결하는 융합적 역량을 배양할 수 있었습니다. 기술 뒤에 숨은 사람 중심의 가치와 윤리적 책임감을 배운 뜻깊은 탐구 여정이었습니다.', 
+                highlight: '비판적 AI 활용력 및 주도적 문제 해결 역량 함양', 
+                tools: ['AI Ethics', 'Data Literacy', 'Self-Reflection', 'Problem Solving'], 
+                reflection: '인공지능은 기술을 넘어 사회에 선한 영향력을 전하는 도구임을 깨달았습니다.', 
+                icon: 'brain-circuit', 
+                color: 'from-indigo-500 to-purple-600'
             }
         ];
 
-        let portfolioData = JSON.parse(localStorage.getItem('ai_portfolio_v4.5')) || defaultData;
+        let portfolioData = JSON.parse(localStorage.getItem('ai_portfolio_v4.6')) || defaultData;
         
-        // 필수 링크 동기화 보장
-        const syncItem3 = portfolioData.find(item => item.id === '3');
-        if (syncItem3) syncItem3.pageUrl = 'https://kdysky09-wq.github.io/AI-2026/it_ai';
+        // 로드맵 카드(id: 7) 제거 및 성찰 카드(id: 6) 최신화 동기화
+        portfolioData = portfolioData.filter(item => item.id !== '7');
 
-        const syncItem5 = portfolioData.find(item => item.id === '5');
-        if (syncItem5) syncItem5.pageUrl = 'https://kdysky09-wq.github.io/AI-2026/festival_site';
-
-        const hasMealAppCard = portfolioData.some(item => item.id === '8');
-        if (!hasMealAppCard) {
-            const mealAppCard = defaultData.find(item => item.id === '8');
-            if (mealAppCard) portfolioData.splice(5, 0, mealAppCard);
-        }
-
-        const hasCctvCard = portfolioData.some(item => item.id === '9');
-        if (!hasCctvCard) {
-            const cctvCard = defaultData.find(item => item.id === '9');
-            if (cctvCard) portfolioData.splice(6, 0, cctvCard);
+        const syncItem6 = portfolioData.find(item => item.id === '6');
+        if (syncItem6) {
+            syncItem6.title = '학습 성찰 및 총평';
+            syncItem6.categoryLabel = '학습 성찰';
+            syncItem6.shortDesc = '인공지능일반 탐구 과정과 성장에 대한 50단어 종합 성찰';
+            syncItem6.fullDesc = '한 학기 동안 인공지능일반 교과 수업을 이수하며 AI 기술의 원리와 윤리, 데이터 분석, 그리고 모바일 웹 서비스 제작까지 폭넓은 영역을 경험했습니다. 단순히 인공지능 도구를 활용하는 데 그치지 않고, 비판적 사고를 기반으로 사실관계를 검증하며 지역 사회와 학교 현장의 문제를 직접 해결하는 융합적 역량을 배양할 수 있었습니다. 기술 뒤에 숨은 사람 중심의 가치와 윤리적 책임감을 배운 뜻깊은 탐구 여정이었습니다.';
+            syncItem6.highlight = '비판적 AI 활용력 및 주도적 문제 해결 역량 함양';
+            syncItem6.icon = 'brain-circuit';
+            delete syncItem6.pageUrl; // 팝업 모달로 열리도록 설정
+        } else {
+            const defaultItem6 = defaultData.find(item => item.id === '6');
+            if (defaultItem6) portfolioData.push(defaultItem6);
         }
 
         let activeCategory = 'all', searchQuery = '';
 
         function save() {
-            localStorage.setItem('ai_portfolio_v4.5', JSON.stringify(portfolioData));
+            localStorage.setItem('ai_portfolio_v4.6', JSON.stringify(portfolioData));
             document.getElementById('metric-total-count').innerText = `${portfolioData.length}개`;
         }
 
@@ -418,10 +399,14 @@
         function openCardModal(id) {
             const d = portfolioData.find(i => i.id === id);
             if(!d) return;
+            
+            // 링크 주소가 존재하면 외부 사이트로 이동
             if (d.pageUrl) {
                 window.location.href = d.pageUrl;
                 return;
             }
+
+            // pageUrl이 없으면 팝업 모달 출력
             document.getElementById('modal-title').innerText = d.title;
             document.getElementById('modal-category').innerText = d.categoryLabel;
             document.getElementById('modal-description').innerText = d.fullDesc;
@@ -430,16 +415,23 @@
             document.getElementById('modal-icon').setAttribute('data-lucide', d.icon);
             document.getElementById('modal-icon-bg').className = `p-3 rounded-2xl text-white bg-gradient-to-br ${d.color}`;
             
+            const btnWrapper = document.getElementById('modal-buttons-wrapper');
             const btnContainer = document.getElementById('modal-buttons-container');
-            btnContainer.className = "grid grid-cols-1 sm:grid-cols-2 gap-3";
-            btnContainer.innerHTML = `
-                <a href="${d.reportUrl || '#'}" class="flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-slate-700 hover:bg-slate-600 text-white font-bold transition-all border border-slate-600">
-                    <i data-lucide="file-text" class="w-4 h-4"></i> 보고서 다운로드
-                </a>
-                <a href="${d.pptUrl || '#'}" class="flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold transition-all shadow-md">
-                    <i data-lucide="download" class="w-4 h-4"></i> 발표 자료 다운로드
-                </a>
-            `;
+            
+            if (d.reportUrl || d.pptUrl) {
+                btnWrapper.classList.remove('hidden');
+                btnContainer.innerHTML = `
+                    <a href="${d.reportUrl || '#'}" class="flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-slate-700 hover:bg-slate-600 text-white font-bold transition-all border border-slate-600 text-xs">
+                        <i data-lucide="file-text" class="w-4 h-4"></i> 보고서 다운로드
+                    </a>
+                    <a href="${d.pptUrl || '#'}" class="flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold transition-all shadow-md text-xs">
+                        <i data-lucide="download" class="w-4 h-4"></i> 발표 자료 다운로드
+                    </a>
+                `;
+            } else {
+                btnWrapper.classList.add('hidden');
+            }
+
             document.getElementById('modal-tools').innerHTML = d.tools.map(t => `<span class="px-2.5 py-1 rounded-lg bg-slate-700 text-slate-300 text-xs font-medium border border-slate-600">${t}</span>`).join('');
             openModal('modal');
         }
