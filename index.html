@@ -69,7 +69,7 @@
                 </button>
             </div>
         </div>
-        <div class="p-4 border-t border-slate-700 text-center text-xs text-slate-500">인공지능일반 v4.6</div>
+        <div class="p-4 border-t border-slate-700 text-center text-xs text-slate-500">인공지능일반 v4.7</div>
     </aside>
 
     <header class="sticky top-0 z-40 bg-slate-900/80 backdrop-blur-md border-b border-slate-800">
@@ -159,7 +159,7 @@
             <div class="p-6 space-y-6 text-sm">
                 <div>
                     <h4 class="text-xs font-bold text-slate-400 uppercase mb-2">학습 성찰 및 탐구 개요</h4>
-                    <p id="modal-description" class="text-slate-200 leading-relaxed">내용</p>
+                    <p id="modal-description" class="text-slate-200 leading-relaxed whitespace-pre-line"></p>
                 </div>
                 <div class="bg-indigo-950/40 border border-indigo-900 rounded-2xl p-4">
                     <h4 class="text-xs font-bold text-indigo-300 uppercase mb-1.5 flex items-center gap-1.5"><i data-lucide="sparkles" class="w-4 h-4"></i> 핵심 배움 및 역량</h4>
@@ -216,7 +216,11 @@
     </div>
 
     <script>
-        // 기본 데이터 설정 (로드맵 제거, 총 8개 카드, 6번 성찰 카드는 pageUrl 없이 팝업으로 동작)
+        // 확장된 학습 성찰 및 총평 문구
+        const expandedReflectionDesc = `한 학기 동안 '인공지능일반' 교과 수업을 이수하며 AI 기술의 기본 원리와 윤리적 책임, 공공데이터 기반 분석, 그리고 모바일 웹 서비스 제작에 이르기까지 미래 인공지능 시대를 이끌어갈 다각도의 역량을 깊이 있게 탐구했습니다.
+
+생성형 AI 활용 원칙을 정립하여 윤리적 기술 사용의 가치를 배우고, 부산 지역 문제 및 대학 진로 데이터 분석을 수행하며 데이터 분석력을 향상 시켰습니다. 나아가 나이스(NEIS) API 및 공공 API를 활용한 급식 서비스와 CCTV 데이터 시각화 웹앱을 직접 구현하면서 단순한 기술 소비자를 넘어 문제 해결력을 성장 시킬수 있었습니다.`;
+
         const defaultData = [
             { 
                 id: '1', 
@@ -322,29 +326,32 @@
                 categoryLabel: '학습 성찰', 
                 title: '학습 성찰 및 총평', 
                 shortDesc: '인공지능일반 탐구 과정과 성장에 대한 종합 성찰', 
-                fullDesc: '한 학기 동안 인공지능일반 교과 수업을 이수하며 AI 기술의 원리와 윤리, 데이터 분석, 그리고 모바일 웹 서비스 제작까지 폭넓은 영역을 경험했습니다. 그 과정에서 다양한 AI 도구의 종류와 사용법을 익히게 되었습니다.', 
-                highlight: '비판적 AI 활용력 및 다양한 AI 도구 습득', 
-                tools: ['AI Ethics', 'Data Literacy', 'AI Tools', 'Web Service'], 
-                reflection: '인공지능은 기술을 넘어 다양한 문제를 해결하는 유용한 도구임을 깨달았습니다.', 
+                fullDesc: expandedReflectionDesc, 
+                highlight: '비판적 AI 활용력, 데이터 리터러시 및 웹 응용 구현 역량 확보', 
+                tools: ['AI Ethics', 'Data Literacy', 'API Integration', 'Web Service'], 
+                reflection: '인공지능은 단순한 기술을 넘어, 사회적 가치를 창출하고 삶의 문제를 해결해 주는 혁신적 도구임을 깨달았습니다.', 
                 icon: 'brain-circuit', 
                 color: 'from-indigo-500 to-purple-600'
             }
         ];
 
-        let portfolioData = JSON.parse(localStorage.getItem('ai_portfolio_v4.6')) || defaultData;
+        let portfolioData = JSON.parse(localStorage.getItem('ai_portfolio_v4.7')) || defaultData;
         
-        // 로드맵 카드(id: 7) 제거 및 성찰 카드(id: 6) 최신화 동기화
+        // 로드맵 카드가 남아 있다면 제거
         portfolioData = portfolioData.filter(item => item.id !== '7');
 
+        // 성찰 카드의 내용을 항상 최신 확장 문구로 동기화
         const syncItem6 = portfolioData.find(item => item.id === '6');
         if (syncItem6) {
             syncItem6.title = '학습 성찰 및 총평';
             syncItem6.categoryLabel = '학습 성찰';
             syncItem6.shortDesc = '인공지능일반 탐구 과정과 성장에 대한 종합 성찰';
-            syncItem6.fullDesc = '한 학기 동안 인공지능일반 교과 수업을 이수하며 AI 기술의 원리와 윤리, 데이터 분석, 그리고 모바일 웹 서비스 제작까지 폭넓은 영역을 경험했습니다. 그 과정에서 다양한 AI 도구의 종류와 사용법을 익히게 되었습니다.';
-            syncItem6.highlight = '비판적 AI 활용력 및 다양한 AI 도구 습득';
+            syncItem6.fullDesc = expandedReflectionDesc;
+            syncItem6.highlight = '비판적 AI 활용력, 데이터 리터러시 및 웹 응용 구현 역량 확보';
+            syncItem6.tools = ['AI Ethics', 'Data Literacy', 'API Integration', 'Web Service'];
+            syncItem6.reflection = '인공지능은 단순한 기술을 넘어, 사회적 가치를 창출하고 삶의 문제를 해결해 주는 혁신적 도구임을 깨달았습니다.';
             syncItem6.icon = 'brain-circuit';
-            delete syncItem6.pageUrl; // 팝업 모달로 열리도록 설정
+            delete syncItem6.pageUrl;
         } else {
             const defaultItem6 = defaultData.find(item => item.id === '6');
             if (defaultItem6) portfolioData.push(defaultItem6);
@@ -353,7 +360,7 @@
         let activeCategory = 'all', searchQuery = '';
 
         function save() {
-            localStorage.setItem('ai_portfolio_v4.6', JSON.stringify(portfolioData));
+            localStorage.setItem('ai_portfolio_v4.7', JSON.stringify(portfolioData));
             document.getElementById('metric-total-count').innerText = `${portfolioData.length}개`;
         }
 
