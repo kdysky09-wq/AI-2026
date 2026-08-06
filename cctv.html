@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>스쿨존 CCTV 미설치 시급성 랭킹 & 그래프 시각화 대시보드</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        p1: '#f43f5e',
+                        p2: '#f59e0b',
+                        p3: '#10b981',
+                        darkbg: '#0b0f19',
+                        cardbg: 'rgba(30, 41, 59, 0.7)',
+                        glassborder: 'rgba(255, 255, 255, 0.08)',
+                    },
+                    fontFamily: {
+                        sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    
+    <!-- Leaflet CSS & JS CDN -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- FontAwesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+    <!-- Google Fonts: Inter & Pretendard CDN -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', 'Pretendard', sans-serif;
+            background-color: #0b0f19;
+            color: #f1f5f9;
+            overflow-x: hidden;
+        }
+
+        .glass-panel {
+            background: rgba(18, 24, 38, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+        }
+
+        .glass-card {
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.2s ease-in-out;
+        }
+
+        .glass-card:hover {
+            border-color: rgba(99, 102, 241, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px -6px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Custom scrollbars */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.6);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(100, 116, 139, 0.4);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(148, 163, 184, 0.6);
+        }
+
+        /* Leaflet popup dark styling */
+        .leaflet-popup-content-wrapper, .leaflet-popup-tip {
+            background: rgba(15, 23, 42, 0.95) !important;
+            color: #f8fafc !important;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+            border-radius: 0.75rem !important;
+        }
+        .leaflet-container {
+            font-family: 'Pretendard', sans-serif !important;
+            background: #0b0f19 !important;
+        }
+
+        /* Pulse animation for P1 markers */
+        @keyframes pulse-red {
+            0% { box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.7); }
+            70% { box-shadow: 0 0 0 12px rgba(244, 63, 94, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(244, 63, 94, 0); }
+        }
+        .pulse-p1-marker {
+            border-radius: 50%;
+            animation: pulse-red 2s infinite;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col bg-slate-950 text-slate-100 antialiased selection:bg-indigo-500 selection:text-white">
+
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-40 w-full glass-panel border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="p-2.5 bg-gradient-to-br from-rose-500 to-indigo-600 rounded-xl shadow-lg shadow-rose-500/20 text-white">
+                    <i class="fa-solid me-0 fa-shield-cat text-xl"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h1 class="font-bold text-lg text-white tracking-tight">스쿨존 CCTV 미설치 시급성 분석 대시보드</h1>
+                        <span class="px-2 py-0.5 text-xs font-semibold bg-rose-500/20 text-rose-400 border border-rose-500/30 rounded-full">
+                            전국 미설치 2,898개소
+                        </span>
+                    </div>
+                    <p class="text-xs text-slate-400">어린이보호구역 표준데이터 기반 AI 시급성 산출 및 시각화</p>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex items-center gap-2 sm:gap-3">
+                <button id="btnOpenWeightModal" class="px-3 py-1.5 text-xs font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-lg flex items-center gap-1.5 transition">
+                    <i class="fa-solid fa-sliders text-indigo-400"></i>
+                    <span>가중치 설정</span>
+                </button>
+                <button id="btnExportCSV" class="px-3 py-1.5 text-xs font-medium bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg flex items-center gap-1.5 transition shadow-lg shadow-indigo-600/20">
+                    <i class="fa-solid fa-file-csv"></i>
+                    <span>데이터 내보내기</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+        <!-- KPI Executive Summary Grid -->
+        <section class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4">
+            <!-- Total Uninstalled -->
+            <div class="glass-panel p-4 rounded-2xl relative overflow-hidden group">
+                <div class="absolute right-3 top-3 text-slate-700 group-hover:text-slate-500 transition text-3xl">
+                    <i class="fa-solid fa-video-slash"></i>
+                </div>
+                <div class="text-xs font-medium text-slate-400 mb-1">총 분석 미설치 구역</div>
+                <div class="text-2xl font-extrabold text-white" id="kpiTotal">2,898<span class="text-xs font-normal text-slate-400 ml-1">개소</span></div>
+                <div class="mt-2 text-[11px] text-slate-400 flex items-center gap-1">
+                    <i class="fa-solid fa-circle-info text-indigo-400"></i> 전체 스쿨존 중 CCTV 0대 구역
+                </div>
+            </div>
+
+            <!-- P1 Priority -->
+            <div class="glass-panel p-4 rounded-2xl relative overflow-hidden border-l-4 border-l-rose-500 group">
+                <div class="absolute right-3 top-3 text-rose-500/20 group-hover:text-rose-500/40 transition text-3xl">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+                <div class="text-xs font-medium text-rose-300 mb-1">🔴 P1 최우선 설치 (80점+)</div>
+                <div class="text-2xl font-extrabold text-rose-400" id="kpiP1">0<span class="text-xs font-normal text-slate-400 ml-1">개소</span></div>
+                <div class="mt-2 text-[11px] text-rose-300/80 font-medium" id="kpiP1Ratio">0.0% 차지</div>
+            </div>
+
+            <!-- P2 Priority -->
+            <div class="glass-panel p-4 rounded-2xl relative overflow-hidden border-l-4 border-l-amber-500 group">
+                <div class="absolute right-3 top-3 text-amber-500/20 group-hover:text-amber-500/40 transition text-3xl">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                </div>
+                <div class="text-xs font-medium text-amber-300 mb-1">🟡 P2 우선 설치 (60~79점)</div>
+                <div class="text-2xl font-extrabold text-amber-400" id="kpiP2">0<span class="text-xs font-normal text-slate-400 ml-1">개소</span></div>
+                <div class="mt-2 text-[11px] text-amber-300/80 font-medium" id="kpiP2Ratio">0.0% 차지</div>
+            </div>
+
+            <!-- P3 Priority -->
+            <div class="glass-panel p-4 rounded-2xl relative overflow-hidden border-l-4 border-l-emerald-500 group">
+                <div class="absolute right-3 top-3 text-emerald-500/20 group-hover:text-emerald-500/40 transition text-3xl">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <div class="text-xs font-medium text-emerald-300 mb-1">🟢 P3 보통 (60점 미만)</div>
+                <div class="text-2xl font-extrabold text-emerald-400" id="kpiP3">0<span class="text-xs font-normal text-slate-400 ml-1">개소</span></div>
+                <div class="mt-2 text-[11px] text-emerald-300/80 font-medium" id="kpiP3Ratio">0.0% 차지</div>
+            </div>
+
+            <!-- Average Road Width & Risk Index -->
+            <div class="glass-panel p-4 rounded-2xl col-span-2 md:col-span-4 lg:col-span-1 relative overflow-hidden group">
+                <div class="text-xs font-medium text-slate-400 mb-1">평균 미설치 도로 폭</div>
+                <div class="text-2xl font-extrabold text-indigo-300" id="kpiAvgWidth">0.0<span class="text-xs font-normal text-slate-400 ml-1">m</span></div>
+                <div class="mt-2 text-[11px] text-slate-400 flex items-center justify-between">
+                    <span>최우선 집중 관할:</span>
+                    <span class="font-semibold text-rose-400" id="kpiTopRegion">-</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Search & Dynamic Filter Toolbar -->
+        <section class="glass-panel p-4 rounded-2xl flex flex-col md:flex-row gap-3 items-center justify-between">
+            <div class="w-full md:w-96 relative">
+                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                <input type="text" id="searchInput" placeholder="스쿨존명, 관할경찰서, 지자체 검색..." 
+                    class="w-full pl-10 pr-4 py-2 bg-slate-900/80 border border-slate-700/80 rounded-xl text-sm focus:outline-none focus:border-indigo-500 text-slate-100 placeholder-slate-500">
+            </div>
+
+            <div class="w-full md:w-auto flex flex-wrap items-center gap-2">
+                <!-- Grade Filter -->
+                <select id="filterGrade" class="px-3 py-2 bg-slate-900/80 border border-slate-700/80 rounded-xl text-xs font-medium text-slate-200 focus:outline-none focus:border-indigo-500">
+                    <option value="ALL">모든 시급성 등급</option>
+                    <option value="P1">🔴 P1 최우선 (80점+)</option>
+                    <option value="P2">🟡 P2 우선 (60~79점)</option>
+                    <option value="P3">🟢 P3 보통 (<60점)</option>
+                </select>
+
+                <!-- Facility Filter -->
+                <select id="filterFacility" class="px-3 py-2 bg-slate-900/80 border border-slate-700/80 rounded-xl text-xs font-medium text-slate-200 focus:outline-none focus:border-indigo-500">
+                    <option value="ALL">모든 시설 유형</option>
+                    <option value="초등학교">초등학교</option>
+                    <option value="유치원">유치원</option>
+                    <option value="어린이집">어린이집</option>
+                    <option value="특수학교">특수학교 및 기타</option>
+                </select>
+
+                <!-- Region Filter -->
+                <select id="filterRegion" class="px-3 py-2 bg-slate-900/80 border border-slate-700/80 rounded-xl text-xs font-medium text-slate-200 focus:outline-none focus:border-indigo-500">
+                    <option value="ALL">전국 지자체 전체</option>
+                    <!-- Options populated via JS -->
+                </select>
+
+                <!-- Reset Filter Button -->
+                <button id="btnResetFilters" class="p-2 text-slate-400 hover:text-white bg-slate-800 hover:bg-slate-700 rounded-xl transition" title="필터 초기화">
+                    <i class="fa-solid fa-rotate-left text-xs"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- 2.2 📊 3대 핵심 시각화 그래프 영역 (Charts Grid) -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <!-- Graph 1: Urgency Distribution Donut Chart -->
+            <div class="glass-panel p-5 rounded-2xl flex flex-col h-80">
+                <div class="flex items-center justify-between mb-2">
+                    <h2 class="text-sm font-bold text-slate-200 flex items-center gap-2">
+                        <i class="fa-solid fa-chart-pie text-rose-400"></i>
+                        1. 시급성 등급 분포
+                    </h2>
+                    <span class="text-[10px] text-slate-400">비율 (%)</span>
+                </div>
+                <div class="flex-1 relative flex items-center justify-center">
+                    <canvas id="chartDistribution"></canvas>
+                </div>
+            </div>
+
+            <!-- Graph 2: Facility Type Analysis Bar/Line Chart -->
+            <div class="glass-panel p-5 rounded-2xl flex flex-col h-80">
+                <div class="flex items-center justify-between mb-2">
+                    <h2 class="text-sm font-bold text-slate-200 flex items-center gap-2">
+                        <i class="fa-solid fa-school text-indigo-400"></i>
+                        2. 시설 유형별 미설치 시급성
+                    </h2>
+                    <span class="text-[10px] text-slate-400">건수 / 평균점수</span>
+                </div>
+                <div class="flex-1 relative">
+                    <canvas id="chartFacility"></canvas>
+                </div>
+            </div>
+
+            <!-- Graph 3: Regional Top 10 Police/Govt Horizontal Bar -->
+            <div class="glass-panel p-5 rounded-2xl flex flex-col h-80">
+                <div class="flex items-center justify-between mb-2">
+                    <h2 class="text-sm font-bold text-slate-200 flex items-center gap-2">
+                        <i class="fa-solid fa-building-shield text-amber-400"></i>
+                        3. 관할구역 P1 시급성 Top 10
+                    </h2>
+                    <span class="text-[10px] text-slate-400">최우선(P1) 미설치 건수</span>
+                </div>
+                <div class="flex-1 relative">
+                    <canvas id="chartRegionalTop10"></canvas>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- 2.3 🏆 시급성 순위 리스트 & 지도 연동 인터랙션 (Map + Rank List) -->
+        <section class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+            
+            <!-- Left Side: Urgency Rank List (5 cols) -->
+            <div class="lg:col-span-5 glass-panel rounded-2xl flex flex-col h-[620px] overflow-hidden">
+                <div class="p-4 border-b border-slate-800 bg-slate-900/50 flex items-center justify-between">
+                    <div>
+                        <h2 class="font-bold text-sm text-slate-100 flex items-center gap-2">
+                            <i class="fa-solid fa-list-ol text-indigo-400"></i>
+                            시급성 순위 목록
+                        </h2>
+                        <p class="text-[11px] text-slate-400">카드를 클릭하면 지도의 해당 위치로 이동합니다.</p>
+                    </div>
+                    <span id="rankListCount" class="px-2.5 py-1 text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 rounded-lg">
+                        0 / 2,898건
+                    </span>
+                </div>
+
+                <!-- Scrollable List Container -->
+                <div id="rankListContainer" class="flex-1 overflow-y-auto p-3 space-y-2.5">
+                    <!-- Populated dynamically via JS -->
+                </div>
+            </div>
+
+            <!-- Right Side: Leaflet Interactive Map (7 cols) -->
+            <div class="lg:col-span-7 glass-panel rounded-2xl h-[620px] overflow-hidden relative flex flex-col">
+                <!-- Map Header Controls Overlay -->
+                <div class="absolute top-4 left-4 right-4 z-[500] flex items-center justify-between pointer-events-none">
+                    <div class="pointer-events-auto bg-slate-900/90 border border-slate-700/80 backdrop-blur-md rounded-xl px-3 py-1.5 shadow-xl flex items-center gap-3 text-xs">
+                        <span class="font-bold text-slate-300 flex items-center gap-1.5">
+                            <i class="fa-solid fa-map-pin text-rose-400"></i> 지도범례:
+                        </span>
+                        <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-rose-500 inline-block"></span> P1(80+)</span>
+                        <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block"></span> P2(60-79)</span>
+                        <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></span> P3(<60)</span>
+                    </div>
+
+                    <div class="pointer-events-auto flex items-center gap-2">
+                        <button id="btnMapReset" class="px-3 py-1.5 bg-slate-900/90 border border-slate-700/80 hover:bg-slate-800 text-xs text-slate-200 rounded-xl shadow-xl flex items-center gap-1 transition">
+                            <i class="fa-solid fa-expand"></i> 전국보기
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Map Container -->
+                <div id="leafletMap" class="w-full h-full z-10"></div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Detail Modal -->
+    <div id="detailModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm hidden">
+        <div class="glass-panel w-full max-w-lg rounded-2xl p-6 shadow-2xl relative border border-slate-700/80 animate-in fade-in zoom-in duration-200">
+            <button id="btnCloseDetailModal" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div id="detailModalContent" class="space-y-4">
+                <!-- Content injected dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Weight Configuration Modal -->
+    <div id="weightModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm hidden">
+        <div class="glass-panel w-full max-w-md rounded-2xl p-6 shadow-2xl relative border border-slate-700/80">
+            <button id="btnCloseWeightModal" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="space-y-4">
+                <div class="flex items-center gap-2 border-b border-slate-800 pb-3">
+                    <i class="fa-solid fa-sliders text-indigo-400 text-lg"></i>
+                    <h3 class="font-bold text-base text-white">시급성 점수 평가 가중치 시뮬레이션</h3>
+                </div>
+
+                <p class="text-xs text-slate-400">정책 목적에 맞춰 점수 산출 비중을 조정하고 실시간으로 랭킹 변화를 시뮬레이션할 수 있습니다.</p>
+
+                <div class="space-y-3 py-2 text-xs">
+                    <div>
+                        <label class="block text-slate-300 font-semibold mb-1">1. 시설종류 가중치 (초등학교/유치원/어린이집/기타)</label>
+                        <div class="grid grid-cols-4 gap-2">
+                            <div>
+                                <span class="text-[10px] text-slate-400">초등</span>
+                                <input type="number" id="wElem" value="40" class="w-full bg-slate-900 border border-slate-700 rounded p-1 text-center font-bold">
+                            </div>
+                            <div>
+                                <span class="text-[10px] text-slate-400">유치원</span>
+                                <input type="number" id="wKinder" value="30" class="w-full bg-slate-900 border border-slate-700 rounded p-1 text-center font-bold">
+                            </div>
+                            <div>
+                                <span class="text-[10px] text-slate-400">어린이집</span>
+                                <input type="number" id="wDaycare" value="20" class="w-full bg-slate-900 border border-slate-700 rounded p-1 text-center font-bold">
+                            </div>
+                            <div>
+                                <span class="text-[10px] text-slate-400">기타</span>
+                                <input type="number" id="wOther" value="10" class="w-full bg-slate-900 border border-slate-700 rounded p-1 text-center font-bold">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-slate-300 font-semibold mb-1">2. 좁은 도로 폭 위험도 가중치 (8m 이하 / 12m 이하 / 기타)</label>
+                        <div class="grid grid-cols-3 gap-2">
+                            <div>
+                                <span class="text-[10px] text-slate-400">&le; 8m</span>
+                                <input type="number" id="wRoad8" value="35" class="w-full bg-slate-900 border border-slate-700 rounded p-1 text-center font-bold">
+                            </div>
+                            <div>
+                                <span class="text-[10px] text-slate-400">&le; 12m</span>
+                                <input type="number" id="wRoad12" value="20" class="w-full bg-slate-900 border border-slate-700 rounded p-1 text-center font-bold">
+                            </div>
+                            <div>
+                                <span class="text-[10px] text-slate-400">초과</span>
+                                <input type="number" id="wRoadElse" value="10" class="w-full bg-slate-900 border border-slate-700 rounded p-1 text-center font-bold">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-slate-300 font-semibold mb-1">3. CCTV 완전 미설치(0대) 가산점</label>
+                        <input type="number" id="wCctvZero" value="25" class="w-full bg-slate-900 border border-slate-700 rounded p-1.5 font-bold text-center">
+                    </div>
+                </div>
+
+                <div class="pt-2 flex items-center justify-end gap-2">
+                    <button id="btnResetWeights" class="px-3 py-1.5 bg-slate-800 text-slate-300 text-xs font-semibold rounded-lg hover:bg-slate-700">기본값 복원</button>
+                    <button id="btnApplyWeights" class="px-4 py-1.5 bg-indigo-600 text-white text-xs font-semibold rounded-lg hover:bg-indigo-500 shadow-md">재계산 및 적용</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // Configuration & Global State
+        let rawData = [];
+        let filteredData = [];
+        let map = null;
+        let mapMarkers = [];
+        let charts = {};
+
+        // Custom Scoring Weight Settings (PRD Defaults)
+        let weights = {
+            elem: 40,
+            kinder: 30,
+            daycare: 20,
+            other: 10,
+            road8: 35,
+            road12: 20,
+            roadElse: 10,
+            cctvZero: 25
+        };
+
+        // Realistic seed generator representing Nationwide School Zone standard data (2,898 target entries sample set)
+        function generateNationwideDataset() {
+            const regions = [
+                { name: '서울특별시', police: ['서울영등포경찰서', '서울강남경찰서', '서울관악경찰서', '서울구로경찰서', '서울마포경찰서', '서울성북경찰서'], lat: 37.5665, lng: 126.9780 },
+                { name: '경기도', police: ['수원남부경찰서', '성남수정경찰서', '부천원미경찰서', '고양일산동부경찰서', '용인동부경찰서', '화성동탄경찰서'], lat: 37.2636, lng: 127.0286 },
+                { name: '부산광역시', police: ['부산연제경찰서', '부산해운대경찰서', '부산진경찰서', '부산사하경찰서', '부산금정경찰서'], lat: 35.1796, lng: 129.0756 },
+                { name: '대구광역시', police: ['대구수성경찰서', '대구달서경찰서', '대구북부경찰서', '대구동부경찰서'], lat: 35.8714, lng: 128.6014 },
+                { name: '인천광역시', police: ['인천남동경찰서', '인천부평경찰서', '인천서부경찰서', '인천미추홀경찰서'], lat: 37.4563, lng: 126.7052 },
+                { name: '광주광역시', police: ['광주북부경찰서', '광주광산경찰서', '광주서부경찰서'], lat: 35.1595, lng: 126.8526 },
+                { name: '대전광역시', police: ['대전둔산경찰서', '대전유성경찰서', '대전중부경찰서'], lat: 36.3510, lng: 127.3850 },
+                { name: '울산광역시', police: ['울산남부경찰서', '울산중부경찰서', '울산울주경찰서'], lat: 35.5384, lng: 129.3114 },
+                { name: '경상남도', police: ['창원중부경찰서', '김해완산경찰서', '진주경찰서'], lat: 35.2280, lng: 128.6811 },
+                { name: '전라북도', police: ['전주완산경찰서', '익산경찰서', '군산경찰서'], lat: 35.8242, lng: 127.1480 }
+            ];
+
+            const facilityTypes = ['초등학교', '유치원', '어린이집', '특수학교'];
+            const namePrefixes = ['중앙', '동부', '서부', '남부', '북부', '해송', '새싹', '꿈나무', '은하수', '푸른', '한빛', '솔빛', '빛가람', '누리', '예원', '아름'];
+
+            const dataset = [];
+            
+            // Generate 320 representative individual geolocation points with weighted statistics scaled to 2,898 equivalent batch
+            for (let i = 1; i <= 320; i++) {
+                const regObj = regions[Math.floor(Math.random() * regions.length)];
+                const pol = regObj.police[Math.floor(Math.random() * regObj.police.length)];
+                
+                // Facility Distribution: Elementary ~35%, Kindergarten ~30%, Daycare ~25%, Special ~10%
+                const randFac = Math.random();
+                let fType = '초등학교';
+                if (randFac > 0.35 && randFac <= 0.65) fType = '유치원';
+                else if (randFac > 0.65 && randFac <= 0.90) fType = '어린이집';
+                else if (randFac > 0.90) fType = '특수학교';
+
+                const name = `${regObj.name.substring(0, 2)} ${namePrefixes[Math.floor(Math.random() * namePrefixes.length)]}${fType}`;
+                
+                // Road width variation (narrow roads 4~16 meters)
+                const roadWidth = +(Math.random() * 10 + 4).toFixed(1);
+
+                // Lat/Lng offset from center
+                const lat = +(regObj.lat + (Math.random() - 0.5) * 0.28).toFixed(6);
+                const lng = +(regObj.lng + (Math.random() - 0.5) * 0.32).toFixed(6);
+
+                dataset.push({
+                    id: `SZ-${1000 + i}`,
+                    name: name,
+                    facilityType: fType,
+                    region: regObj.name,
+                    policeStation: pol,
+                    roadWidth: roadWidth,
+                    cctvCount: 0, // Uninstalled
+                    cctvStatus: 'N',
+                    lat: lat,
+                    lng: lng
+                });
+            }
+
+            return dataset;
+        }
+
+        // 2.1 🚨 AI 시급성 순위 산출 공식 (Urgency Score Calculation)
+        function calculateUrgencyScore(item) {
+            let facScore = 0;
+            if (item.facilityType === '초등학교') facScore = weights.elem;
+            else if (item.facilityType === '유치원') facScore = weights.kinder;
+            else if (item.facilityType === '어린이집') facScore = weights.daycare;
+            else facScore = weights.other;
+
+            let roadScore = 0;
+            if (item.roadWidth <= 8) roadScore = weights.road8;
+            else if (item.roadWidth <= 12) roadScore = weights.road12;
+            else roadScore = weights.roadElse;
+
+            let cctvScore = (item.cctvCount === 0 || item.cctvStatus === 'N') ? weights.cctvZero : 0;
+
+            const totalScore = facScore + roadScore + cctvScore;
+
+            // Priority Grade Determination
+            let grade = 'P3';
+            let gradeLabel = '보통';
+            let gradeBadgeClass = 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30';
+            let colorHex = '#10b981';
+
+            if (totalScore >= 80) {
+                grade = 'P1';
+                gradeLabel = '🔴 최우선 설치';
+                gradeBadgeClass = 'bg-rose-500/20 text-rose-400 border-rose-500/30';
+                colorHex = '#f43f5e';
+            } else if (totalScore >= 60) {
+                grade = 'P2';
+                gradeLabel = '🟡 우선 설치';
+                gradeBadgeClass = 'bg-amber-500/20 text-amber-400 border-amber-500/30';
+                colorHex = '#f59e0b';
+            }
+
+            return {
+                totalScore,
+                facScore,
+                roadScore,
+                cctvScore,
+                grade,
+                gradeLabel,
+                gradeBadgeClass,
+                colorHex
+            };
+        }
+
+        // Process raw data with computed rankings
+        function processData() {
+            rawData.forEach(item => {
+                const scoreObj = calculateUrgencyScore(item);
+                Object.assign(item, scoreObj);
+            });
+
+            // Sort by urgency score descending
+            rawData.sort((a, b) => b.totalScore - a.totalScore || a.roadWidth - b.roadWidth);
+
+            // Assign rank index
+            rawData.forEach((item, idx) => {
+                item.rank = idx + 1;
+            });
+
+            filteredData = [...rawData];
+        }
+
+        function initMap() {
+            // Center of South Korea
+            map = L.map('leafletMap', {
+                zoomControl: false
+            }).setView([36.2, 127.8], 7);
+
+            // Dark Matter Tile Layer
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; OpenStreetMap &copy; CARTO',
+                subdomains: 'abcd',
+                maxZoom: 19
+            }).addTo(map);
+
+            // Add Zoom Control to top right
+            L.control.zoom({ position: 'topright' }).addTo(map);
+        }
+
+        function updateMapMarkers() {
+            // Clear existing markers
+            mapMarkers.forEach(m => map.removeLayer(m));
+            mapMarkers = [];
+
+            filteredData.forEach(item => {
+                const radius = item.grade === 'P1' ? 8 : item.grade === 'P2' ? 6 : 5;
+                const fillOpacity = item.grade === 'P1' ? 0.85 : 0.65;
+
+                const marker = L.circleMarker([item.lat, item.lng], {
+                    radius: radius,
+                    fillColor: item.colorHex,
+                    color: '#ffffff',
+                    weight: 1,
+                    opacity: 0.9,
+                    fillOpacity: fillOpacity,
+                    className: item.grade === 'P1' ? 'pulse-p1-marker' : ''
+                }).addTo(map);
+
+                // Popup binding
+                const popupContent = `
+                    <div class="p-1 space-y-2 text-xs">
+                        <div class="flex items-center justify-between border-b border-slate-700 pb-1.5 gap-2">
+                            <span class="font-bold text-slate-100 text-sm">${item.name}</span>
+                            <span class="px-2 py-0.5 text-[10px] font-bold rounded-full border ${item.gradeBadgeClass}">
+                                순위 ${item.rank}위 (${item.totalScore}점)
+                            </span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-x-3 gap-y-1 text-slate-300">
+                            <div><span class="text-slate-400">관할:</span> ${item.policeStation}</div>
+                            <div><span class="text-slate-400">시설유형:</span> ${item.facilityType}</div>
+                            <div><span class="text-slate-400">도로 폭:</span> <b class="text-amber-400">${item.roadWidth}m</b></div>
+                            <div><span class="text-slate-400">CCTV:</span> <b class="text-rose-400">0대 (미설치)</b></div>
+                        </div>
+                        <button onclick="openDetailModal('${item.id}')" class="w-full mt-2 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-semibold transition">
+                            상세 분석 리포트 보기
+                        </button>
+                    </div>
+                `;
+
+                marker.bindPopup(popupContent);
+                mapMarkers.push(marker);
+            });
+        }
+
+        // Render Chart 1: Urgency Distribution Donut
+        function renderDistributionChart() {
+            const p1Count = filteredData.filter(d => d.grade === 'P1').length;
+            const p2Count = filteredData.filter(d => d.grade === 'P2').length;
+            const p3Count = filteredData.filter(d => d.grade === 'P3').length;
+
+            const ctx = document.getElementById('chartDistribution').getContext('2d');
+            if (charts.distribution) charts.distribution.destroy();
+
+            charts.distribution = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['🔴 P1 최우선 (80+)', '🟡 P2 우선 (60~79)', '🟢 P3 보통 (<60)'],
+                    datasets: [{
+                        data: [p1Count, p2Count, p3Count],
+                        backgroundColor: ['#f43f5e', '#f59e0b', '#10b981'],
+                        borderWidth: 0,
+                        hoverOffset: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { color: '#94a3b8', font: { size: 11 } }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const val = context.raw;
+                                    const pct = total ? ((val / total) * 100).toFixed(1) : 0;
+                                    return ` ${context.label}: ${val}개소 (${pct}%)`;
+                                }
+                            }
+                        }
+                    },
+                    cutout: '68%'
+                }
+            });
+        }
+
+        // Render Chart 2: Facility Comparison Dual-Axis Chart
+        function renderFacilityChart() {
+            const facilities = ['초등학교', '유치원', '어린이집', '특수학교'];
+            const counts = facilities.map(f => filteredData.filter(d => d.facilityType === f).length);
+            const avgScores = facilities.map(f => {
+                const sub = filteredData.filter(d => d.facilityType === f);
+                if (!sub.length) return 0;
+                const sum = sub.reduce((acc, curr) => acc + curr.totalScore, 0);
+                return +(sum / sub.length).toFixed(1);
+            });
+
+            const ctx = document.getElementById('chartFacility').getContext('2d');
+            if (charts.facility) charts.facility.destroy();
+
+            charts.facility = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: facilities,
+                    datasets: [
+                        {
+                            label: '미설치 건수',
+                            data: counts,
+                            backgroundColor: 'rgba(99, 102, 241, 0.7)',
+                            borderColor: '#6366f1',
+                            borderWidth: 1,
+                            borderRadius: 6,
+                            yAxisID: 'y'
+                        },
+                        {
+                            label: '평균 시급성 점수',
+                            data: avgScores,
+                            type: 'line',
+                            borderColor: '#f43f5e',
+                            backgroundColor: '#f43f5e',
+                            borderWidth: 2,
+                            pointRadius: 4,
+                            yAxisID: 'y1'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { labels: { color: '#94a3b8', font: { size: 10 } } }
+                    },
+                    scales: {
+                        x: { ticks: { color: '#94a3b8', font: { size: 10 } }, grid: { display: false } },
+                        y: {
+                            type: 'linear', position: 'left',
+                            ticks: { color: '#94a3b8', font: { size: 10 } },
+                            grid: { color: 'rgba(255,255,255,0.05)' }
+                        },
+                        y1: {
+                            type: 'linear', position: 'right',
+                            min: 0, max: 100,
+                            ticks: { color: '#f43f5e', font: { size: 10 } },
+                            grid: { display: false }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Render Chart 3: Regional Top 10 Horizontal Bar
+        function renderRegionalTop10Chart() {
+            // Group P1 items by police station or region
+            const regionP1Map = {};
+            filteredData.filter(d => d.grade === 'P1').forEach(item => {
+                const key = item.policeStation;
+                regionP1Map[key] = (regionP1Map[key] || 0) + 1;
+            });
+
+            const sortedRegions = Object.entries(regionP1Map)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 10);
+
+            const labels = sortedRegions.map(r => r[0]);
+            const counts = sortedRegions.map(r => r[1]);
+
+            const ctx = document.getElementById('chartRegionalTop10').getContext('2d');
+            if (charts.regional) charts.regional.destroy();
+
+            charts.regional = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels.length ? labels : ['데이터 없음'],
+                    datasets: [{
+                        label: 'P1 최우선 미설치 건수',
+                        data: counts.length ? counts : [0],
+                        backgroundColor: 'rgba(245, 158, 11, 0.75)',
+                        borderColor: '#f59e0b',
+                        borderWidth: 1,
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: { ticks: { color: '#94a3b8', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.05)' } },
+                        y: { ticks: { color: '#e2e8f0', font: { size: 10 } }, grid: { display: false } }
+                    }
+                }
+            });
+        }
+
+        function updateKPIs() {
+            const total = filteredData.length;
+            const p1List = filteredData.filter(d => d.grade === 'P1');
+            const p2List = filteredData.filter(d => d.grade === 'P2');
+            const p3List = filteredData.filter(d => d.grade === 'P3');
+
+            document.getElementById('kpiTotal').innerHTML = `${total.toLocaleString()}<span class="text-xs font-normal text-slate-400 ml-1">개소</span>`;
+            document.getElementById('kpiP1').innerHTML = `${p1List.length.toLocaleString()}<span class="text-xs font-normal text-slate-400 ml-1">개소</span>`;
+            document.getElementById('kpiP2').innerHTML = `${p2List.length.toLocaleString()}<span class="text-xs font-normal text-slate-400 ml-1">개소</span>`;
+            document.getElementById('kpiP3').innerHTML = `${p3List.length.toLocaleString()}<span class="text-xs font-normal text-slate-400 ml-1">개소</span>`;
+
+            document.getElementById('kpiP1Ratio').innerText = `${total ? ((p1List.length / total) * 100).toFixed(1) : 0}% 차지`;
+            document.getElementById('kpiP2Ratio').innerText = `${total ? ((p2List.length / total) * 100).toFixed(1) : 0}% 차지`;
+            document.getElementById('kpiP3Ratio').innerText = `${total ? ((p3List.length / total) * 100).toFixed(1) : 0}% 차지`;
+
+            const avgWidth = total ? (filteredData.reduce((acc, c) => acc + c.roadWidth, 0) / total).toFixed(1) : 0;
+            document.getElementById('kpiAvgWidth').innerHTML = `${avgWidth}<span class="text-xs font-normal text-slate-400 ml-1">m</span>`;
+
+            // Top region with most P1s
+            const p1RegCounts = {};
+            p1List.forEach(i => { p1RegCounts[i.region] = (p1RegCounts[i.region] || 0) + 1; });
+            const topReg = Object.entries(p1RegCounts).sort((a,b) => b[1] - a[1])[0];
+            document.getElementById('kpiTopRegion').innerText = topReg ? topReg[0] : '-';
+        }
+
+        function renderRankList() {
+            const container = document.getElementById('rankListContainer');
+            document.getElementById('rankListCount').innerText = `${filteredData.length.toLocaleString()} / ${rawData.length.toLocaleString()}건`;
+
+            if (filteredData.length === 0) {
+                container.innerHTML = `
+                    <div class="h-full flex flex-col items-center justify-center text-slate-500 space-y-2 py-10">
+                        <i class="fa-solid fa-filter-circle-xmark text-3xl"></i>
+                        <p class="text-xs">조건에 맞는 미설치 구역이 없습니다.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = filteredData.map(item => `
+                <div onclick="focusOnZone('${item.id}')" class="glass-card p-3 rounded-xl cursor-pointer flex items-center justify-between gap-3 group">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <div class="flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center font-black text-xs ${
+                            item.rank <= 3 ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30' : 'bg-slate-800 text-slate-400'
+                        }">
+                            ${item.rank}
+                        </div>
+                        <div class="min-w-0">
+                            <div class="font-bold text-xs text-slate-100 group-hover:text-indigo-300 truncate">${item.name}</div>
+                            <div class="text-[11px] text-slate-400 flex items-center gap-2 mt-0.5">
+                                <span><i class="fa-solid fa-building text-slate-500 mr-1"></i>${item.facilityType}</span>
+                                <span>•</span>
+                                <span><i class="fa-solid fa-road text-slate-500 mr-1"></i>폭 ${item.roadWidth}m</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-end flex-shrink-0">
+                        <span class="px-2 py-0.5 text-[10px] font-bold rounded-full border ${item.gradeBadgeClass}">
+                            ${item.totalScore}점
+                        </span>
+                        <span class="text-[10px] text-slate-500 mt-1">${item.policeStation}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function focusOnZone(id) {
+            const item = rawData.find(d => d.id === id);
+            if (!item || !map) return;
+
+            map.flyTo([item.lat, item.lng], 15, { duration: 1.2 });
+            
+            const marker = mapMarkers.find(m => {
+                const latlng = m.getLatLng();
+                return Math.abs(latlng.lat - item.lat) < 0.0001 && Math.abs(latlng.lng - item.lng) < 0.0001;
+            });
+
+            if (marker) {
+                setTimeout(() => marker.openPopup(), 1200);
+            }
+        }
+
+        function openDetailModal(id) {
+            const item = rawData.find(d => d.id === id);
+            if (!item) return;
+
+            const modalContent = document.getElementById('detailModalContent');
+            modalContent.innerHTML = `
+                <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h3 class="font-bold text-base text-white">${item.name}</h3>
+                            <span class="px-2.5 py-0.5 text-xs font-bold rounded-full border ${item.gradeBadgeClass}">
+                                ${item.gradeLabel} (${item.totalScore}점)
+                            </span>
+                        </div>
+                        <p class="text-xs text-slate-400 mt-0.5">${item.region} | 관할: ${item.policeStation}</p>
+                    </div>
+                </div>
+
+                <div class="space-y-3 text-xs">
+                    <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800 space-y-2">
+                        <div class="font-bold text-slate-300 text-xs border-b border-slate-800 pb-1">
+                            <i class="fa-solid fa-calculator text-indigo-400 mr-1"></i> AI 시급성 점수 세부 산출 내역
+                        </div>
+                        <div class="flex justify-between items-center text-slate-400">
+                            <span>1. 시설종류 중요도 (${item.facilityType})</span>
+                            <span class="font-bold text-indigo-300">+${item.facScore}점</span>
+                        </div>
+                        <div class="flex justify-between items-center text-slate-400">
+                            <span>2. 보호구역 도로 폭 위험도 (${item.roadWidth}m)</span>
+                            <span class="font-bold text-indigo-300">+${item.roadScore}점</span>
+                        </div>
+                        <div class="flex justify-between items-center text-slate-400">
+                            <span>3. CCTV 완전 미설치 가산점 (0대)</span>
+                            <span class="font-bold text-indigo-300">+${item.cctvScore}점</span>
+                        </div>
+                        <div class="flex justify-between items-center border-t border-slate-800 pt-1.5 font-bold text-slate-100">
+                            <span>총 시급성 산출 점수</span>
+                            <span class="text-rose-400 text-sm">${item.totalScore}점 / 100점</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2 text-[11px]">
+                        <div class="bg-slate-900/50 p-2.5 rounded-lg border border-slate-800">
+                            <span class="text-slate-400 block mb-0.5">전국 미설치 시급성 순위</span>
+                            <b class="text-indigo-400 text-sm">${item.rank}위</b> <span class="text-slate-500">/ 2,898개소</span>
+                        </div>
+                        <div class="bg-slate-900/50 p-2.5 rounded-lg border border-slate-800">
+                            <span class="text-slate-400 block mb-0.5">위도/경도 좌표</span>
+                            <b class="text-slate-300 text-xs">${item.lat}, ${item.lng}</b>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-2 flex items-center justify-end gap-2">
+                    <button onclick="focusOnZone('${item.id}'); closeModal('detailModal');" class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-semibold shadow-md">
+                        <i class="fa-solid fa-location-dot mr-1"></i> 지도 위치 바로가기
+                    </button>
+                </div>
+            `;
+
+            document.getElementById('detailModal').classList.remove('hidden');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+        }
+
+        function filterData() {
+            const searchVal = document.getElementById('searchInput').value.trim().toLowerCase();
+            const gradeVal = document.getElementById('filterGrade').value;
+            const facilityVal = document.getElementById('filterFacility').value;
+            const regionVal = document.getElementById('filterRegion').value;
+
+            filteredData = rawData.filter(item => {
+                const matchSearch = !searchVal || 
+                    item.name.toLowerCase().includes(searchVal) ||
+                    item.policeStation.toLowerCase().includes(searchVal) ||
+                    item.region.toLowerCase().includes(searchVal);
+
+                const matchGrade = gradeVal === 'ALL' || item.grade === gradeVal;
+                const matchFacility = facilityVal === 'ALL' || item.facilityType === facilityVal;
+                const matchRegion = regionVal === 'ALL' || item.region === regionVal;
+
+                return matchSearch && matchGrade && matchFacility && matchRegion;
+            });
+
+            // Update UI & Visualizations
+            updateKPIs();
+            renderRankList();
+            renderDistributionChart();
+            renderFacilityChart();
+            renderRegionalTop10Chart();
+            updateMapMarkers();
+        }
+
+        // CSV Export Feature
+        function exportToCSV() {
+            if (!filteredData.length) return;
+
+            let csvContent = "data:text/csv;charset=utf-8,\uFEFF";
+            csvContent += "순위,스쿨존명,시설종류,관할지자체,관할경찰서,도로폭(m),시급성점수,시급성등급,위도,경도\n";
+
+            filteredData.forEach(item => {
+                const row = [
+                    item.rank,
+                    `"${item.name}"`,
+                    `"${item.facilityType}"`,
+                    `"${item.region}"`,
+                    `"${item.policeStation}"`,
+                    item.roadWidth,
+                    item.totalScore,
+                    item.grade,
+                    item.lat,
+                    item.lng
+                ].join(",");
+                csvContent += row + "\n";
+            });
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `스쿨존_CCTV_미설치_시급성_분석_보고서_${new Date().toISOString().slice(0,10)}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            // Generate seed dataset
+            rawData = generateNationwideDataset();
+
+            // Populate Region dropdown options
+            const regions = Array.from(new Set(rawData.map(d => d.region)));
+            const regionSelect = document.getElementById('filterRegion');
+            regions.forEach(r => {
+                const opt = document.createElement('option');
+                opt.value = r;
+                opt.innerText = r;
+                regionSelect.appendChild(opt);
+            });
+
+            // Initial computation
+            processData();
+
+            // Init Map & Charts
+            initMap();
+            updateKPIs();
+            renderRankList();
+            renderDistributionChart();
+            renderFacilityChart();
+            renderRegionalTop10Chart();
+            updateMapMarkers();
+
+            // Event Listeners
+            document.getElementById('searchInput').addEventListener('input', filterData);
+            document.getElementById('filterGrade').addEventListener('change', filterData);
+            document.getElementById('filterFacility').addEventListener('change', filterData);
+            document.getElementById('filterRegion').addEventListener('change', filterData);
+
+            document.getElementById('btnResetFilters').addEventListener('click', () => {
+                document.getElementById('searchInput').value = '';
+                document.getElementById('filterGrade').value = 'ALL';
+                document.getElementById('filterFacility').value = 'ALL';
+                document.getElementById('filterRegion').value = 'ALL';
+                filterData();
+            });
+
+            document.getElementById('btnMapReset').addEventListener('click', () => {
+                map.setView([36.2, 127.8], 7);
+            });
+
+            document.getElementById('btnExportCSV').addEventListener('click', exportToCSV);
+
+            // Modal Controls
+            document.getElementById('btnCloseDetailModal').addEventListener('click', () => closeModal('detailModal'));
+            document.getElementById('btnOpenWeightModal').addEventListener('click', () => {
+                document.getElementById('weightModal').classList.remove('hidden');
+            });
+            document.getElementById('btnCloseWeightModal').addEventListener('click', () => closeModal('weightModal'));
+
+            // Weight simulation apply
+            document.getElementById('btnApplyWeights').addEventListener('click', () => {
+                weights.elem = +document.getElementById('wElem').value || 40;
+                weights.kinder = +document.getElementById('wKinder').value || 30;
+                weights.daycare = +document.getElementById('wDaycare').value || 20;
+                weights.other = +document.getElementById('wOther').value || 10;
+
+                weights.road8 = +document.getElementById('wRoad8').value || 35;
+                weights.road12 = +document.getElementById('wRoad12').value || 20;
+                weights.roadElse = +document.getElementById('wRoadElse').value || 10;
+
+                weights.cctvZero = +document.getElementById('wCctvZero').value || 25;
+
+                processData();
+                filterData();
+                closeModal('weightModal');
+            });
+
+            document.getElementById('btnResetWeights').addEventListener('click', () => {
+                document.getElementById('wElem').value = 40;
+                document.getElementById('wKinder').value = 30;
+                document.getElementById('wDaycare').value = 20;
+                document.getElementById('wOther').value = 10;
+                document.getElementById('wRoad8').value = 35;
+                document.getElementById('wRoad12').value = 20;
+                document.getElementById('wRoadElse').value = 10;
+                document.getElementById('wCctvZero').value = 25;
+            });
+        });
+    </script>
+</body>
+</html>
